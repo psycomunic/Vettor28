@@ -116,13 +116,12 @@ const PropertiesPage: React.FC = () => {
                                     <button onClick={() => openEdit(p)} className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors"><Edit2 size={16} /></button>
                                     <button onClick={() => handleDelete(p.id)} className="p-2 hover:bg-red-500/10 rounded-lg text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
                                 </div>
-                                    <button onClick={() => handleDelete(p.id)} className="p-2 hover:bg-red-500/10 rounded-lg text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={16} /></button>
-                                </div>
                             </div>
-                            
+
+
                             {p.photo_url && (
                                 <div className="w-full h-40 mb-4 rounded-xl overflow-hidden">
-                                     <img src={p.photo_url} alt={p.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
+                                    <img src={p.photo_url} alt={p.name} className="w-full h-full object-cover transition-transform group-hover:scale-105" />
                                 </div>
                             )}
 
@@ -144,72 +143,72 @@ const PropertiesPage: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-    ))
-}
-{
-    properties.length === 0 && (
-        <div className="col-span-full text-center py-20 bg-white/5 rounded-3xl border border-dashed border-white/10">
-            <p className="text-gray-500">Nenhum estabelecimento cadastrado.</p>
-        </div>
-    )
-}
+                    ))
+                    }
+                    {
+                        properties.length === 0 && (
+                            <div className="col-span-full text-center py-20 bg-white/5 rounded-3xl border border-dashed border-white/10">
+                                <p className="text-gray-500">Nenhum estabelecimento cadastrado.</p>
+                            </div>
+                        )
+                    }
                 </div >
             )}
 
-{/* Modal / Simple Overlay Form */ }
-{
-    isModalOpen && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-            <div className="bg-[#111] border border-white/10 rounded-3xl p-8 max-w-lg w-full relative">
-                <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white"><Plus className="rotate-45" size={24} /></button>
-                <h2 className="text-2xl font-black mb-6">{editingId ? 'Editar' : 'Novo'} Estabelecimento</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="text-gray-500 text-xs font-bold uppercase">Nome</label>
-                        <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+            {/* Modal / Simple Overlay Form */}
+            {
+                isModalOpen && (
+                    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                        <div className="bg-[#111] border border-white/10 rounded-3xl p-8 max-w-lg w-full relative">
+                            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-gray-400 hover:text-white"><Plus className="rotate-45" size={24} /></button>
+                            <h2 className="text-2xl font-black mb-6">{editingId ? 'Editar' : 'Novo'} Estabelecimento</h2>
+                            <form onSubmit={handleSubmit} className="space-y-4">
+                                <div>
+                                    <label className="text-gray-500 text-xs font-bold uppercase">Nome</label>
+                                    <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                </div>
+                                <div>
+                                    <label className="text-gray-500 text-xs font-bold uppercase">Foto (URL)</label>
+                                    <input placeholder="https://..." value={formData.photo_url} onChange={e => setFormData({ ...formData, photo_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-gray-500 text-xs font-bold uppercase">Tipo</label>
+                                        <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]">
+                                            <option value="chale">Chalé</option>
+                                            <option value="pousada">Pousada</option>
+                                            <option value="hotel">Hotel</option>
+                                            <option value="outro">Outro</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="text-gray-500 text-xs font-bold uppercase">Cidade/UF</label>
+                                        <div className="flex gap-2">
+                                            <input placeholder="Cidade" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="w-2/3 bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                            <input placeholder="UF" value={formData.state} onChange={e => setFormData({ ...formData, state: e.target.value })} className="w-1/3 bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="text-gray-500 text-xs font-bold uppercase">Custo Fixo Mensal (R$)</label>
+                                        <input type="number" value={formData.fixed_cost_monthly} onChange={e => setFormData({ ...formData, fixed_cost_monthly: parseFloat(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                    </div>
+                                    <div>
+                                        <label className="text-gray-500 text-xs font-bold uppercase">Diária Média (R$)</label>
+                                        <input type="number" value={formData.avg_daily_rate} onChange={e => setFormData({ ...formData, avg_daily_rate: parseFloat(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                    </div>
+                                    <div className="col-span-2">
+                                        <label className="text-gray-500 text-xs font-bold uppercase">Investimento em Marketing (R$)</label>
+                                        <input type="number" value={formData.marketing_invest_monthly} onChange={e => setFormData({ ...formData, marketing_invest_monthly: parseFloat(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                    </div>
+                                </div>
+                                <button className="w-full bg-[#CCFF00] text-black font-bold py-4 rounded-xl mt-4 hover:bg-[#d9ff33] transition-colors">Salvar</button>
+                            </form>
+                        </div>
                     </div>
-                    <div>
-                        <label className="text-gray-500 text-xs font-bold uppercase">Foto (URL)</label>
-                        <input placeholder="https://..." value={formData.photo_url} onChange={e => setFormData({ ...formData, photo_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-gray-500 text-xs font-bold uppercase">Tipo</label>
-                            <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]">
-                                <option value="chale">Chalé</option>
-                                <option value="pousada">Pousada</option>
-                                <option value="hotel">Hotel</option>
-                                <option value="outro">Outro</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="text-gray-500 text-xs font-bold uppercase">Cidade/UF</label>
-                            <div className="flex gap-2">
-                                <input placeholder="Cidade" value={formData.city} onChange={e => setFormData({ ...formData, city: e.target.value })} className="w-2/3 bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
-                                <input placeholder="UF" value={formData.state} onChange={e => setFormData({ ...formData, state: e.target.value })} className="w-1/3 bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="text-gray-500 text-xs font-bold uppercase">Custo Fixo Mensal (R$)</label>
-                            <input type="number" value={formData.fixed_cost_monthly} onChange={e => setFormData({ ...formData, fixed_cost_monthly: parseFloat(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
-                        </div>
-                        <div>
-                            <label className="text-gray-500 text-xs font-bold uppercase">Diária Média (R$)</label>
-                            <input type="number" value={formData.avg_daily_rate} onChange={e => setFormData({ ...formData, avg_daily_rate: parseFloat(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
-                        </div>
-                        <div className="col-span-2">
-                            <label className="text-gray-500 text-xs font-bold uppercase">Investimento em Marketing (R$)</label>
-                            <input type="number" value={formData.marketing_invest_monthly} onChange={e => setFormData({ ...formData, marketing_invest_monthly: parseFloat(e.target.value) })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
-                        </div>
-                    </div>
-                    <button className="w-full bg-[#CCFF00] text-black font-bold py-4 rounded-xl mt-4 hover:bg-[#d9ff33] transition-colors">Salvar</button>
-                </form>
-            </div>
-        </div>
-    )
-}
+                )
+            }
         </div >
     );
 };
