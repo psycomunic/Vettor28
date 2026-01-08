@@ -2,6 +2,7 @@ export interface Profile {
     id: string;
     name: string | null;
     company_name: string | null;
+    role: 'client' | 'admin';
     created_at: string;
 }
 

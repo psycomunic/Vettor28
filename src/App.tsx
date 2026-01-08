@@ -16,6 +16,8 @@ import DashboardLayout from './layouts/DashboardLayout';
 import OverviewPage from './pages/dashboard/Overview';
 import PropertiesPage from './pages/dashboard/Properties';
 import BookingsPage from './pages/dashboard/Bookings';
+import AdminLayout from './layouts/AdminLayout';
+import AdminDashboard from './pages/admin/Dashboard';
 
 // Other Components
 import { Menu, X } from 'lucide-react';
@@ -24,6 +26,13 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     const { user, loading } = useAuth();
     if (loading) return <div className="h-screen flex items-center justify-center bg-[#050505] text-[#CCFF00]"><Loader2 className="animate-spin" size={32} /></div>;
     if (!user) return <Navigate to="/auth" />;
+    return <>{children}</>;
+};
+
+const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
+    const { user, loading, isAdmin } = useAuth();
+    if (loading) return <div className="h-screen flex items-center justify-center bg-[#050505] text-[#CCFF00]"><Loader2 className="animate-spin" size={32} /></div>;
+    if (!user || !isAdmin) return <Navigate to="/dashboard" />; // Redirect non-admins to dashboard
     return <>{children}</>;
 };
 
@@ -107,6 +116,12 @@ const App: React.FC = () => {
                             <Route index element={<OverviewPage />} />
                             <Route path="properties" element={<PropertiesPage />} />
                             <Route path="bookings" element={<BookingsPage />} />
+                        </Route>
+
+                        {/* Admin Panel */}
+                        <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
+                            <Route index element={<AdminDashboard />} />
+                            {/* We can add 'clients' route here too later */}
                         </Route>
                     </Routes>
                 </div>

@@ -79,3 +79,18 @@ alter table public.bookings enable row level security;
 
 create policy "Users can CRUD own bookings" on public.bookings
   for all using (auth.uid() = user_id);
+
+-- 4. ROLES & PERMISSIONS (Added for Admin Panel)
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS role text default 'client' check (role in ('client', 'admin'));
+
+-- Update Policies for Profiles (Admins can view all)
+DROP POLICY IF EXISTS "Users can view own profile" ON public.profiles;
+CREATE POLICY "Users can view own profile" ON public.profiles FOR SELECT USING (auth.uid() = id OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');
+
+-- Update Policies for Properties (Admins can view all)
+DROP POLICY IF EXISTS "Users can CRUD own properties" ON public.properties;
+CREATE POLICY "Users can CRUD own properties" ON public.properties FOR ALL USING (auth.uid() = user_id OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');
+
+-- Update Policies for Bookings (Admins can view all)
+DROP POLICY IF EXISTS "Users can CRUD own bookings" ON public.bookings;
+CREATE POLICY "Users can CRUD own bookings" ON public.bookings FOR ALL USING (auth.uid() = user_id OR (SELECT role FROM public.profiles WHERE id = auth.uid()) = 'admin');
