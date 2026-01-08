@@ -14,6 +14,8 @@ export interface Property {
     state: string | null;
     avg_daily_rate: number | null;
     fixed_cost_monthly: number | null;
+    marketing_invest_monthly?: number | null;
+    photo_url?: string | null;
     created_at: string;
 }
 
