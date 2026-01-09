@@ -87,6 +87,9 @@ const AuthPage: React.FC = () => {
                     </div>
 
                     <div className="p-8 md:p-12">
+                        <div className="flex justify-center mb-8">
+                            <img src="/logo.png" alt="Vettor28" className="h-12 w-auto" />
+                        </div>
                         <h2 className="text-2xl font-brand font-black text-white mb-2 text-center">
                             {activeTab === 'login' ? 'Bem-vindo de volta' : 'Comece a escalar'}
                         </h2>

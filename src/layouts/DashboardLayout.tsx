@@ -39,10 +39,7 @@ const DashboardLayout: React.FC = () => {
             <aside className={`fixed top-0 left-0 bottom-0 w-64 bg-[#0A0A0A] border-r border-white/5 z-50 transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
                 <div className="p-6 border-b border-white/5 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-[#CCFF00] rounded-lg flex items-center justify-center font-black text-black text-lg">
-                            V
-                        </div>
-                        <span className="font-brand font-black tracking-tighter uppercase text-xl">Vettor<span className="text-[#CCFF00]">28</span></span>
+                        <img src="/logo.png" alt="Vettor28" className="h-8 w-auto" />
                     </div>
                     <button className="md:hidden text-gray-400" onClick={() => setSidebarOpen(false)}>
                         <X size={24} />

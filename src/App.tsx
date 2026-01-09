@@ -65,8 +65,7 @@ const PublicNavbar = () => {
             <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-xl border-b border-white/5 py-4' : 'bg-transparent py-8'}`}>
                 <div className="container mx-auto px-6 flex justify-between items-center">
                     <a href="/" className="flex items-center gap-3 cursor-pointer group">
-                        <div className="w-10 h-10 bg-[#CCFF00] rounded-xl flex items-center justify-center font-black text-black text-xl group-hover:rotate-12 transition-transform">V</div>
-                        <span className="text-2xl font-brand font-black tracking-tighter uppercase text-white">Vettor<span className="text-[#CCFF00]">28</span></span>
+                        <img src="/logo.png" alt="Vettor28" className="h-12 w-auto group-hover:scale-105 transition-transform" />
                     </a>
 
                     <div className="hidden md:flex gap-10 items-center">
