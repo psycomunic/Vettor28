@@ -75,6 +75,36 @@ const PropertiesPage: React.FC = () => {
         }
     };
 
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        try {
+            setUploading(true);
+            const file = e.target.files?.[0];
+            if (!file) return;
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            const { error: uploadError } = await supabase.storage.from('properties').upload(filePath, file);
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            const { data: { publicUrl } } = supabase.storage.from('properties').getPublicUrl(filePath);
+
+            setFormData({ ...formData, photo_url: publicUrl });
+
+        } catch (error) {
+            alert('Erro ao fazer upload da imagem!');
+            console.error(error);
+        } finally {
+            setUploading(false);
+        }
+    };
+
     const openEdit = (p: Property) => {
         setFormData({
             name: p.name,
@@ -168,8 +198,19 @@ const PropertiesPage: React.FC = () => {
                                     <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
                                 </div>
                                 <div>
-                                    <label className="text-gray-500 text-xs font-bold uppercase">Foto (URL)</label>
-                                    <input placeholder="https://..." value={formData.photo_url} onChange={e => setFormData({ ...formData, photo_url: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00]" />
+                                    <label className="text-gray-500 text-xs font-bold uppercase">Foto do Estabelecimento</label>
+                                    <div className="flex gap-2 items-center">
+                                        <label className="flex-1 cursor-pointer bg-white/5 border border-white/10 rounded-xl p-3 text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                                            {uploading ? <Loader2 className="animate-spin" size={20} /> : <Home size={20} />}
+                                            <span className="text-sm font-bold text-gray-300">{uploading ? 'Enviando...' : 'Escolher Imagem'}</span>
+                                            <input type="file" accept="image/*" onChange={handleFileUpload} className="hidden" />
+                                        </label>
+                                        {formData.photo_url && (
+                                            <div className="w-12 h-12 rounded-lg bg-white/5 overflow-hidden border border-white/10">
+                                                <img src={formData.photo_url} alt="Preview" className="w-full h-full object-cover" />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>

@@ -7,9 +7,11 @@ import { Loader2 } from 'lucide-react';
 import HomePage from './pages/HomePage';
 import MetodoPage from './pages/MetodoPage';
 import ServicosPage from './pages/ServicosPage';
-import BeneficiosPage from './pages/BeneficiosPage';
-import ContatoPage from './pages/ContatoPage';
+import ResultadosPage from './pages/ResultadosPage';
+import SobrePage from './pages/SobrePage';
+import DiagnosticoPage from './pages/DiagnosticoPage';
 import AuthPage from './pages/AuthPage';
+import ContatoPage from './pages/ContatoPage'; // Keeping as fallback
 
 // Dashboard
 import DashboardLayout from './layouts/DashboardLayout';
@@ -39,7 +41,7 @@ const ProtectedAdminRoute = ({ children }: { children: React.ReactNode }) => {
 const PublicNavbar = () => {
     const location = useLocation();
     // Hide navbar on dashboard or auth?
-    if (location.pathname.startsWith('/dashboard') || location.pathname === '/auth') return null;
+    if (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/admin') || location.pathname === '/auth') return null;
 
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [scrolled, setScrolled] = React.useState(false);
@@ -54,7 +56,8 @@ const PublicNavbar = () => {
         { name: "Início", path: "/" },
         { name: "Método", path: "/metodo" },
         { name: "Serviços", path: "/servicos" },
-        { name: "Benefícios", path: "/beneficios" },
+        { name: "Resultados", path: "/resultados" },
+        { name: "Sobre", path: "/sobre" },
     ];
 
     return (
@@ -72,8 +75,11 @@ const PublicNavbar = () => {
                                 {link.name}
                             </a>
                         ))}
-                        <a href="/auth" className="bg-[#CCFF00]/10 border border-[#CCFF00]/30 text-[#CCFF00] px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-[#CCFF00] hover:text-black transition-all">
-                            Entrar
+                        <a href="/diagnostico" className="bg-[#CCFF00] text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg hover:shadow-[#CCFF00]/20">
+                            Diagnóstico
+                        </a>
+                        <a href="/auth" className="text-white hover:text-[#CCFF00] transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                         </a>
                     </div>
 
@@ -84,11 +90,12 @@ const PublicNavbar = () => {
             </nav>
             {/* Mobile Menu */}
             {isMenuOpen && (
-                <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center gap-12 md:hidden">
+                <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center gap-8 md:hidden">
                     {navLinks.map(link => (
-                        <a key={link.path} href={link.path} className="text-4xl font-brand font-black uppercase tracking-tighter text-white">{link.name}</a>
+                        <a key={link.path} href={link.path} className="text-3xl font-brand font-black uppercase tracking-tighter text-white hover:text-[#CCFF00]" onClick={() => setIsMenuOpen(false)}>{link.name}</a>
                     ))}
-                    <a href="/auth" className="text-4xl font-brand font-black text-[#CCFF00] uppercase tracking-tighter">Entrar</a>
+                    <a href="/diagnostico" className="text-3xl font-brand font-black text-[#CCFF00] uppercase tracking-tighter" onClick={() => setIsMenuOpen(false)}>Diagnóstico</a>
+                    <a href="/auth" className="text-xl font-bold text-gray-400 uppercase tracking-widest mt-8" onClick={() => setIsMenuOpen(false)}>Área do Cliente</a>
                     <button className="absolute top-8 right-6 text-white" onClick={() => setIsMenuOpen(false)}><X size={32} /></button>
                 </div>
             )}
@@ -107,9 +114,11 @@ const App: React.FC = () => {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/metodo" element={<MetodoPage />} />
                         <Route path="/servicos" element={<ServicosPage />} />
-                        <Route path="/beneficios" element={<BeneficiosPage />} />
-                        <Route path="/contato" element={<ContatoPage />} />
+                        <Route path="/resultados" element={<ResultadosPage />} />
+                        <Route path="/sobre" element={<SobrePage />} />
+                        <Route path="/diagnostico" element={<DiagnosticoPage />} />
                         <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/contato" element={<ContatoPage />} />
 
                         {/* Dashboard */}
                         <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>

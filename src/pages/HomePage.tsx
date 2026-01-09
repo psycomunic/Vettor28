@@ -1,16 +1,16 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, CheckCircle2, Target, LayoutDashboard, BarChart3, Quote, Star, Zap } from 'lucide-react';
-import { NeonButton, SectionTitle, FAQItem } from '../components/Shared';
-import { useNavigate } from 'react-router-dom';
+import { NeonButton, SectionTitle } from '../components/Shared';
+import { ArrowRight, Target, Zap, MousePointer2, TrendingUp, CheckCircle2, ArrowUpRight } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <>
-            {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+        <div className="bg-[#0a0a0a] text-white">
+            {/* 1. HERO SECTION */}
+            <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+                {/* Background Video/Effect */}
                 <div className="absolute inset-0 z-0">
                     <div className="w-full h-full bg-[#050505]">
                         <video
@@ -18,253 +18,220 @@ const HomePage: React.FC = () => {
                             muted
                             loop
                             playsInline
-                            poster="https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&q=80&w=2000"
-                            className="w-full h-full object-cover opacity-50"
+                            poster="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop"
+                            className="w-full h-full object-cover opacity-40"
                         >
                             <source src="https://assets.mixkit.co/videos/preview/mixkit-wooden-cabin-in-the-middle-of-the-forest-4424-large.mp4" type="video/mp4" />
                         </video>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-black/50" />
                 </div>
 
-                <div className="container mx-auto px-6 relative z-10 py-20">
-                    <div className="max-w-4xl">
-                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-white/10 mb-8">
-                                <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
-                                <span className="text-xs font-bold text-[#CCFF00] uppercase tracking-widest">Growth Agency Especializada</span>
-                            </div>
-                            <h1 className="text-6xl md:text-8xl font-brand font-black mb-8 leading-[1] text-white">
-                                Sua hospedagem <br /><span className="text-[#CCFF00]">ocupada</span> 365 dias.
-                            </h1>
-                            <p className="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
-                                O método Vettor28 utiliza inteligência de tráfego e posicionamento premium para lotar chalés, resorts e pousadas sem depender exclusivamente de OTAs.
-                            </p>
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <NeonButton onClick={() => navigate('/contato')}>
-                                    Solicitar Diagnóstico Grátis <ArrowRight size={20} />
-                                </NeonButton>
-                                <NeonButton variant="outline" onClick={() => navigate('/metodo')}>
-                                    Ver o Método
-                                </NeonButton>
-                            </div>
-                        </motion.div>
+                <div className="container mx-auto px-6 relative z-10 text-center max-w-5xl">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#CCFF00] text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in-up backdrop-blur-md">
+                        <span className="w-2 h-2 rounded-full bg-[#CCFF00] animate-pulse" />
+                        Método Exclusivo Vettor 28
                     </div>
-                </div>
 
-                {/* Scroll Indicator */}
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 text-white/30 flex flex-col items-center gap-2"
-                >
-                    <span className="text-[10px] uppercase font-bold tracking-widest">Scroll</span>
-                    <ChevronDown size={20} />
-                </motion.div>
-            </section>
+                    <h1 className="text-5xl md:text-7xl font-black font-brand leading-[0.9] text-white mb-6 uppercase tracking-tighter">
+                        Reservas diretas <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#CCFF00] to-green-500">todos os meses</span> <br />
+                        para hospedagens premium.
+                    </h1>
 
-            {/* Partners Marquee */}
-            <section className="py-12 bg-black border-y border-white/5 overflow-hidden">
-                <div className="container mx-auto px-6 mb-8 text-center">
-                    <p className="text-[10px] text-gray-500 uppercase font-bold tracking-[0.3em]">Hospedagens que escalam com a Vettor28</p>
-                </div>
-                <div className="flex gap-12 whitespace-nowrap animate-marquee">
-                    {[1, 2, 3, 4, 5, 6].map(i => (
-                        <div key={i} className="flex gap-12 items-center grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
-                            <span className="text-2xl font-brand font-black uppercase text-white tracking-tighter">Luxury Resort</span>
-                            <span className="text-2xl font-brand font-black uppercase text-white tracking-tighter">Mountain Cabin</span>
-                            <span className="text-2xl font-brand font-black uppercase text-white tracking-tighter">Ocean House</span>
-                            <span className="text-2xl font-brand font-black uppercase text-white tracking-tighter">Boutique Hotel</span>
-                        </div>
-                    ))}
-                </div>
-            </section>
+                    <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
+                        Somos a Vettor 28, uma agência especializada em chalés, cabanas e pousadas que transforma tráfego em diárias vendidas, sem dependência de Airbnb ou Booking.
+                    </p>
 
-            {/* Pillars of Growth */}
-            <section className="py-24 bg-[#050505]">
-                <div className="container mx-auto px-6">
-                    <SectionTitle subtitle="Nossos Pilares" title="Como multiplicamos suas reservas" />
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {[
-                            {
-                                icon: <Target className="text-[#CCFF00]" size={40} />,
-                                title: "Tráfego Direto",
-                                desc: "Anúncios cirúrgicos no Instagram e Google para levar o hóspede direto para o seu site ou WhatsApp."
-                            },
-                            {
-                                icon: <LayoutDashboard className="text-[#CCFF00]" size={40} />,
-                                title: "Posicionamento Premium",
-                                desc: "Transformamos a percepção da sua hospedagem para atrair o público que paga mais e reclama menos."
-                            },
-                            {
-                                icon: <BarChart3 className="text-[#CCFF00]" size={40} />,
-                                title: "Otimização de ROI",
-                                desc: "Análise diária de dados para garantir que cada centavo investido retorne em diárias vendidas."
-                            }
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                whileHover={{ y: -10 }}
-                                className="glass-card p-10 rounded-[2.5rem] border-white/5 group"
-                            >
-                                <div className="mb-6 p-4 bg-white/5 w-fit rounded-2xl group-hover:bg-[#CCFF00]/10 transition-colors">
-                                    {item.icon}
-                                </div>
-                                <h3 className="text-2xl font-brand font-black mb-4">{item.title}</h3>
-                                <p className="text-gray-400 leading-relaxed">{item.desc}</p>
-                            </motion.div>
-                        ))}
+                    <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                        <Link to="/diagnostico">
+                            <NeonButton className="!py-4 !px-8 text-lg">
+                                Solicitar Diagnóstico Gratuito <ArrowRight className="ml-2" />
+                            </NeonButton>
+                        </Link>
+                        <Link to="/metodo" className="text-gray-400 hover:text-white font-bold text-sm uppercase tracking-widest border-b border-transparent hover:border-[#CCFF00] transition-all pb-1">
+                            Conhecer o método
+                        </Link>
                     </div>
                 </div>
             </section>
 
-            {/* Authority / Why Us */}
-            <section className="py-24 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#CCFF00]/5 blur-[150px] -z-10 rounded-full" />
-                <div className="container mx-auto px-6">
-                    <div className="grid lg:grid-cols-2 gap-20 items-center">
-                        <div className="relative">
-                            <div className="grid grid-cols-2 gap-4">
-                                <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&q=80&w=800" className="rounded-2xl w-full h-[300px] object-cover mt-12" alt="Cabin 1" />
-                                <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&q=80&w=800" className="rounded-2xl w-full h-[300px] object-cover" alt="Cabin 2" />
-                            </div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 glass-card p-6 rounded-3xl border-[#CCFF00]/30 backdrop-blur-3xl">
-                                <p className="text-4xl font-brand font-black text-[#CCFF00]">8.5x</p>
-                                <p className="text-[10px] text-gray-400 uppercase font-bold">ROI Médio em 2024</p>
-                            </div>
-                        </div>
+            {/* 2. O PROBLEMA */}
+            <section className="py-24 bg-[#0a0a0a]">
+                <div className="container mx-auto px-6 max-w-6xl">
+                    <div className="grid md:grid-cols-2 gap-16 items-center">
                         <div>
-                            <SectionTitle subtitle="Diferencial" title="Por que não somos uma agência comum?" alignment="left" />
-                            <p className="text-lg text-gray-400 mb-8 leading-relaxed">
-                                Agências comuns atendem de padarias a clínicas médicas. Nós respiramos <strong>Hospitalidade</strong>. Entendemos as sazonalidades, os canais de desejo do hóspede e como converter curiosos em check-ins.
-                            </p>
-                            <div className="space-y-4">
+                            <SectionTitle
+                                subtitle="O CENÁRIO ATUAL"
+                                title="Por que a maioria das hospedagens não cresce de forma previsível?"
+                                alignment="left"
+                            />
+                            <div className="space-y-6 mt-8">
                                 {[
-                                    "Foco exclusivo em Hospedagens Premium",
-                                    "Gestores com experiência real no setor",
-                                    "Faturamento direto na sua conta, sem taxas de OTAs",
-                                    "Dashboards de acompanhamento em tempo real"
-                                ].map((text, i) => (
-                                    <div key={i} className="flex items-center gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-[#CCFF00]/20 flex items-center justify-center text-[#CCFF00] flex-shrink-0">
-                                            <CheckCircle2 size={14} />
+                                    "Dependência total de OTAs (Booking, Airbnb) e suas taxas abusivas.",
+                                    "Baixa ocupação durante a semana, vivendo apenas de finais de semana.",
+                                    "Tráfego pago que traz cliques, mas não vira reserva no caixa.",
+                                    "Falta de dados e previsibilidade de caixa para os próximos meses."
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-start gap-4">
+                                        <div className="w-6 h-6 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center shrink-0 mt-1">
+                                            <div className="w-2 h-2 bg-red-500 rounded-full" />
                                         </div>
-                                        <span className="font-bold text-gray-200">{text}</span>
+                                        <p className="text-gray-400 text-lg">{item}</p>
                                     </div>
                                 ))}
                             </div>
-                            <NeonButton className="mt-12" onClick={() => navigate('/contato')}>Quero esses resultados</NeonButton>
+                        </div>
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-tr from-[#CCFF00] to-green-500 blur-[100px] opacity-20 rounded-full" />
+                            <div className="glass-card p-1 border-white/10 rounded-3xl relative z-10 rotate-3 transition-transform hover:rotate-0 duration-700">
+                                <img
+                                    src="https://images.unsplash.com/photo-1551882547-ff40c432d255?q=80&w=2072&auto=format&fit=crop"
+                                    alt="Dashboard Confuso"
+                                    className="rounded-2xl grayscale hover:grayscale-0 transition-all duration-700"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Portfolio / Visual Showcase */}
-            <section className="py-24 bg-black">
-                <div className="container mx-auto px-6">
-                    <SectionTitle subtitle="Portfólio" title="Onde aplicamos nossa inteligência" />
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {[
-                            { img: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1200", title: "Refúgios de Montanha", tag: "Chalés Luxo" },
-                            { img: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&q=80&w=1200", title: "Resorts Beira Mar", tag: "Escala Nacional" },
-                            { img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1200", title: "Hotéis Boutique", tag: "Posicionamento" },
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                whileHover={{ scale: 0.98 }}
-                                className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] group cursor-pointer"
-                            >
-                                <img src={item.img} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={item.title} />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                                <div className="absolute bottom-8 left-8 right-8">
-                                    <span className="px-3 py-1 bg-[#CCFF00] text-black text-[10px] font-bold rounded-full uppercase mb-3 inline-block">
-                                        {item.tag}
-                                    </span>
-                                    <h4 className="text-2xl font-brand font-black text-white">{item.title}</h4>
-                                </div>
-                            </motion.div>
-                        ))}
+            {/* 3. A NOVA LÓGICA */}
+            <section className="py-24 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
+                <div className="container mx-auto px-6 text-center max-w-4xl relative z-10">
+                    <h2 className="text-4xl md:text-5xl font-black font-brand text-white mb-6 uppercase tracking-tighter">
+                        Hospedagens que crescem não vendem diárias. <span className="text-[#CCFF00]">Vendem desejo.</span>
+                    </h2>
+                    <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+                        Não basta anunciar. É preciso posicionamento, tráfego inteligente e um sistema de vendas diretas.
+                    </p>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                        <div className="h-80 md:h-[500px] rounded-3xl overflow-hidden relative group">
+                            <div className="absolute inset-0 bg-[#CCFF00]/10 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none mix-blend-overlay" />
+                            <img src="https://images.unsplash.com/photo-1445019980597-93fa8acb246c?q=80&w=2074&auto=format&fit=crop" alt="Experience 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <p className="font-bold text-white uppercase tracking-widest text-sm">Experiência</p>
+                            </div>
+                        </div>
+                        <div className="h-80 md:h-[500px] rounded-3xl overflow-hidden relative group md:-mt-12 md:pb-12">
+                            <div className="absolute inset-0 bg-[#CCFF00]/10 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none mix-blend-overlay" />
+                            <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2070&auto=format&fit=crop" alt="Experience 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <p className="font-bold text-white uppercase tracking-widest text-sm">Conforto</p>
+                            </div>
+                        </div>
+                        <div className="h-80 md:h-[500px] rounded-3xl overflow-hidden relative group">
+                            <div className="absolute inset-0 bg-[#CCFF00]/10 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none mix-blend-overlay" />
+                            <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=3230&auto=format&fit=crop" alt="Experience 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
+                                <p className="font-bold text-white uppercase tracking-widest text-sm">Exclusividade</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Testimonials */}
-            <section className="py-24 relative">
+            {/* 4. O MÉTODO - Introduction */}
+            <section className="py-24 bg-[#050505]">
                 <div className="container mx-auto px-6">
-                    <SectionTitle subtitle="Depoimentos" title="Vozes de quem escalou" />
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                        <div>
+                            <SectionTitle subtitle="NOSSO PROCESSO" title="O Método Vettor 28" alignment="left" />
+                            <p className="text-gray-400 mt-4 max-w-md">Um sistema validado para transformar visibilidade em reservas diretas de forma previsível.</p>
+                        </div>
+                        <Link to="/metodo">
+                            <NeonButton className="text-sm">Ver método completo</NeonButton>
+                        </Link>
+                    </div>
+
+                    <div className="grid md:grid-cols-4 gap-4">
                         {[
-                            { name: "Ricardo Alves", role: "Dono do Chalé Vila Rica", text: "Minhas reservas aumentaram 200% em apenas 3 meses. Hoje não dependo mais das taxas abusivas das plataformas." },
-                            { name: "Mariana Costa", role: "Gerente de Resort", text: "A Vettor28 trouxe um público muito mais qualificado. Nosso ticket médio subiu e o atendimento ficou mais fluido." },
-                            { name: "Bruno Mendes", role: "Proprietário Pousada SPA", text: "Excelente entrega. O dashboard que eles oferecem dá uma clareza que eu nunca tive antes sobre meu negócio." }
-                        ].map((t, i) => (
-                            <div key={i} className="glass-card p-10 rounded-3xl border-white/5 relative">
-                                <Quote className="text-[#CCFF00]/20 absolute top-8 right-8" size={40} />
-                                <div className="flex gap-1 mb-6">
-                                    {[1, 2, 3, 4, 5].map(s => <Star key={s} size={14} className="fill-[#CCFF00] text-[#CCFF00]" />)}
-                                </div>
-                                <p className="text-gray-300 italic mb-8 leading-relaxed">"{t.text}"</p>
-                                <div>
-                                    <h5 className="font-bold text-white">{t.name}</h5>
-                                    <p className="text-xs text-gray-500 uppercase tracking-widest">{t.role}</p>
-                                </div>
+                            { step: "01", title: "Diagnóstico de Demanda", icon: Target },
+                            { step: "02", title: "Posicionamento Premium", icon: Zap },
+                            { step: "03", title: "Captação de Reservas", icon: MousePointer2 },
+                            { step: "04", title: "Escala e Previsibilidade", icon: TrendingUp },
+                        ].map((card, i) => (
+                            <div key={i} className="glass-card p-8 rounded-3xl border-white/10 hover:border-[#CCFF00]/50 transition-all group cursor-default">
+                                <div className="text-[#CCFF00] font-black text-4xl mb-6 opacity-30 group-hover:opacity-100 transition-opacity">{card.step}</div>
+                                <h3 className="text-xl font-bold text-white mb-2">{card.title}</h3>
+                                <div className="w-8 h-1 bg-[#CCFF00] mt-4" />
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* FAQ Section */}
-            <section className="py-24 bg-[#050505]">
-                <div className="container mx-auto px-6 max-w-4xl">
-                    <SectionTitle subtitle="Dúvidas Frequentes" title="O que você precisa saber" />
-                    <div className="space-y-4">
-                        <FAQItem
-                            question="Quanto tempo leva para ver os resultados?"
-                            answer="Os primeiros resultados em termos de cliques e interesse costumam aparecer em 7 dias. O amadurecimento das reservas acontece entre 30 e 60 dias conforme otimizamos o algoritmo."
-                        />
-                        <FAQItem
-                            question="Vocês atendem hospedagens pequenas?"
-                            answer="Sim, desde que tenham o objetivo de crescer e escala. Nosso método é adaptável, mas buscamos parceiros que valorizem o posicionamento premium."
-                        />
-                        <FAQItem
-                            question="Preciso de um site próprio?"
-                            answer="É o ideal para maximizar a conversão. Caso não tenha, nosso time de branding pode desenvolver uma Landing Page de alta performance para você."
-                        />
-                        <FAQItem
-                            question="Qual o investimento mínimo recomendado?"
-                            answer="O investimento em anúncios depende da sua meta de reservas, mas recomendamos começar com um valor que permita ao algoritmo aprender seu público."
-                        />
+            {/* 5. PROVA SOCIAL */}
+            <section className="py-24 bg-[#0a0a0a] border-y border-white/5">
+                <div className="container mx-auto px-6 text-center">
+                    <h2 className="text-3xl font-brand font-black text-white mb-16 uppercase tracking-tight">
+                        Hospedagens que já <span className="text-[#CCFF00]">escalaram</span>
+                    </h2>
+
+                    <div className="grid md:grid-cols-3 gap-8 text-left">
+                        <div className="p-8 rounded-3xl bg-white/5 border border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+                            <p className="text-gray-300 text-lg mb-6 leading-relaxed">"Saímos de R$10 mil/mês para mais de <strong className="text-white">R$100 mil em reservas diretas</strong> aplicando o método da Vettor 28."</p>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center font-bold text-[#CCFF00]">B</div>
+                                <div>
+                                    <p className="font-bold text-white">Bruno</p>
+                                    <p className="text-xs text-[#CCFF00] uppercase font-bold tracking-widest">Pousada Serra</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-8 rounded-3xl bg-white/5 border border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+                            <div className="text-5xl font-black text-white mb-2">+400%</div>
+                            <p className="text-gray-400 uppercase font-bold tracking-widest text-xs mb-6">Em reservas diretas</p>
+                            <p className="text-gray-300">Case de sucesso de cabanas de alto padrão que zeraram a dependência do Airbnb.</p>
+                        </div>
+                        <div className="p-8 rounded-3xl bg-white/5 border border-white/5 bg-gradient-to-b from-white/5 to-transparent">
+                            <div className="text-5xl font-black text-white mb-2">12x</div>
+                            <p className="text-gray-400 uppercase font-bold tracking-widest text-xs mb-6">ROI Médio</p>
+                            <p className="text-gray-300">Para cada R$1 investido em tráfego, R$12 retornaram em reservas confirmadas.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Final CTA */}
-            <section className="py-24">
-                <div className="container mx-auto px-6">
-                    <div className="bg-[#CCFF00] p-16 rounded-[4rem] text-black text-center relative overflow-hidden">
-                        <div className="relative z-10">
-                            <h2 className="text-5xl md:text-7xl font-brand font-black mb-8 leading-tight">
-                                Pronto para ter seu <br />calendário sempre cheio?
-                            </h2>
-                            <p className="text-xl font-bold mb-12 opacity-80 max-w-2xl mx-auto">
-                                Nossa agenda para novos clientes é limitada para garantir a exclusividade do seu nicho e região.
-                            </p>
-                            <button
-                                onClick={() => navigate('/contato')}
-                                className="bg-black text-white px-12 py-5 rounded-full font-black text-lg uppercase tracking-widest hover:scale-105 transition-transform shadow-2xl"
-                            >
-                                Falar com um Especialista
-                            </button>
-                        </div>
-                        {/* Decorative shapes */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-black/5 -translate-y-1/2 translate-x-1/2 rounded-full" />
-                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/5 translate-y-1/2 -translate-x-1/2 rounded-full" />
+            {/* 6. PARA QUEM É */}
+            <section className="py-24 bg-[#050505]">
+                <div className="container mx-auto px-6 max-w-4xl text-center">
+                    <SectionTitle subtitle="PERFIL DE CLIENTE" title="Trabalhamos com hospedagens que querem crescer de verdade" center />
+
+                    <div className="grid md:grid-cols-3 gap-6 mt-12 text-left">
+                        {[
+                            "Chalés e Cabanas Premium",
+                            "Pousadas de Experiência",
+                            "Hotéis Boutique"
+                        ].map((item, i) => (
+                            <div key={i} className="flex items-center gap-4 p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-[#CCFF00] transition-colors group">
+                                <CheckCircle2 className="text-[#CCFF00] group-hover:scale-110 transition-transform" />
+                                <span className="font-bold text-white">{item}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
-        </>
+
+            {/* 7. CTA FINAL */}
+            <section className="py-32 bg-[#CCFF00] text-black text-center">
+                <div className="container mx-auto px-6">
+                    <h2 className="text-4xl md:text-6xl font-brand font-black mb-6 uppercase tracking-tighter leading-none">
+                        Sua hospedagem pronta <br /> para escalar?
+                    </h2>
+                    <p className="text-xl font-medium mb-10 max-w-2xl mx-auto opacity-80">
+                        Nossa agenda é limitada para garantir exclusividade por região.
+                    </p>
+                    <Link to="/diagnostico">
+                        <button className="bg-black text-[#CCFF00] font-black uppercase text-xl py-6 px-12 rounded-full hover:scale-105 transition-transform shadow-2xl flex items-center gap-2 mx-auto">
+                            Solicitar Diagnóstico Estratégico <ArrowUpRight />
+                        </button>
+                    </Link>
+                </div>
+            </section>
+        </div>
     );
 };
 
