@@ -101,16 +101,16 @@ const PropostaPage = () => {
                 Antes de vender, precisamos entender. Mapeamos a demanda reprimida da sua região, analisamos seus concorrentes e definimos a estratégia de preço ideal.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Análise de Mercado</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Análise de Mercado</h3>
                     <p className="text-gray-400 text-sm">Quem é seu hóspede ideal e quanto ele paga.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Benchmarking</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Benchmarking</h3>
                     <p className="text-gray-400 text-sm">O que seus concorrentes estão fazendo errado.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Metas Claras</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Metas Claras</h3>
                     <p className="text-gray-400 text-sm">Definição de ROI e taxa de ocupação alvo.</p>
                 </div>
             </div>
@@ -128,16 +128,16 @@ const PropostaPage = () => {
                 Hospedagens comuns vendem diárias. Nós vendemos <span className="text-white font-bold">desejo</span>. Criamos uma identidade visual e verbal que justifica o seu preço.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Redesign de Oferta</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Redesign de Oferta</h3>
                     <p className="text-gray-400 text-sm">Pacotes e experiências que aumentam o ticket.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Landing Pages</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Landing Pages</h3>
                     <p className="text-gray-400 text-sm">Páginas de alta conversão focadas em venda.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Storytelling</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Storytelling</h3>
                     <p className="text-gray-400 text-sm">Narrativas que conectam emocionalmente.</p>
                 </div>
             </div>
@@ -155,16 +155,16 @@ const PropostaPage = () => {
                 Não esperamos o cliente vir. Nós o perseguimos. Um ecossistema de tráfego pago (Meta + Google) que coloca sua reserva na frente do cliente certo.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Tráfego Pago</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Tráfego Pago</h3>
                     <p className="text-gray-400 text-sm">Anúncios no Instagram, Facebook e Google.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Remarketing</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Remarketing</h3>
                     <p className="text-gray-400 text-sm">Recuperação de quem visitou e não comprou.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Comercial Ativo</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Comercial Ativo</h3>
                     <p className="text-gray-400 text-sm">Scripts de venda validados para WhatsApp.</p>
                 </div>
             </div>
@@ -182,16 +182,16 @@ const PropostaPage = () => {
                 Onde o lucro real acontece. Transformamos hóspedes em clientes recorrentes e aumentamos o LTV (Lifetime Value) sem gastar mais com anúncios.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full text-left">
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">CRM Organizado</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">CRM Organizado</h3>
                     <p className="text-gray-400 text-sm">Base de dados viva e segmentada.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Email Marketing</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Email Marketing</h3>
                     <p className="text-gray-400 text-sm">Ofertas automáticas para base de clientes.</p>
                 </div>
-                <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                    <h3 className="font-bold text-white mb-2">Fidelização</h3>
+                <div className="bg-white/5 p-6 rounded-2xl border border-white/5 hover:bg-[#CCFF00]/10 hover:border-[#CCFF00]/30 transition-all duration-300 group hover:-translate-y-1">
+                    <h3 className="font-bold text-white mb-2 group-hover:text-[#CCFF00] transition-colors">Fidelização</h3>
                     <p className="text-gray-400 text-sm">Estratégias para fazer o hóspede voltar sempre.</p>
                 </div>
             </div>
@@ -227,9 +227,9 @@ const PropostaPage = () => {
         <div className="flex flex-col items-center justify-center h-full px-6 max-w-7xl mx-auto pt-20 pb-10 overflow-y-auto">
             <h1 className="text-4xl md:text-5xl font-black mb-12 text-center">Escolha o seu plano de aceleração</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch w-full max-w-7xl">
                 {/* Vettor Start */}
-                <div className="glass-card p-8 rounded-3xl border border-white/10 relative group hover:border-[#CCFF00]/40 hover:bg-white/5 transition-all duration-300 flex flex-col">
+                <div className="glass-card p-6 md:p-8 rounded-3xl border border-white/10 relative group hover:border-[#CCFF00]/40 hover:bg-white/5 transition-all duration-300 flex flex-col">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-3 bg-green-500/10 rounded-xl text-green-500"><Zap size={24} /></div>
                         <div>
@@ -241,29 +241,29 @@ const PropostaPage = () => {
                         <span className="text-4xl font-black text-white">R$ 2.500</span>
                         <span className="text-gray-500 ml-2">/mês</span>
                     </div>
-                    <p className="text-gray-300 text-sm mb-8 leading-relaxed min-h-[60px]">
-                        A estrutura fundamental para profissionalizar sua hospedagem e fazer as primeiras reservas diretas.
+                    <p className="text-gray-300 text-sm mb-6 leading-relaxed min-h-[40px]">
+                        A estrutura fundamental para profissionalizar sua hospedagem.
                     </p>
 
                     <a href="https://wa.me/5511933334444?text=Quero%20começar%20com%20o%20Plano%20Start" target="_blank" className="block w-full py-4 rounded-xl bg-white/5 hover:bg-green-500 hover:text-black text-center font-bold uppercase text-sm transition-all mb-8 border border-white/10 hover:border-green-500 shadow-lg hover:shadow-green-500/20">
                         Escolher Start
                     </a>
 
-                    <div className="space-y-4">
-                        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">O que está incluso:</p>
+                    <div className="space-y-4 border-t border-white/10 pt-6">
+                        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Incluso:</p>
                         <ul className="space-y-3 text-gray-300 text-sm">
                             <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Diagnóstico Estratégico</li>
-                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Gestão de Tráfego (Meta Ads)</li>
+                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Gestão de Tráfego (Meta)</li>
                             <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Relatórios Mensais</li>
-                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Suporte via WhatsApp</li>
+                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Atendimento WhatsApp</li>
                         </ul>
                     </div>
                 </div>
 
                 {/* Vettor Scale */}
-                <div className="glass-card p-8 rounded-3xl border border-[#CCFF00]/50 bg-[#CCFF00]/5 relative transform md:-translate-y-4 shadow-[0_0_40px_-10px_rgba(204,255,0,0.15)] flex flex-col hover:scale-[1.02] transition-transform duration-300">
+                <div className="glass-card p-6 md:p-8 rounded-3xl border border-[#CCFF00]/50 bg-[#CCFF00]/5 relative transform md:-translate-y-6 shadow-[0_0_40px_-10px_rgba(204,255,0,0.15)] flex flex-col hover:scale-[1.02] transition-transform duration-300 z-10">
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#CCFF00] text-black px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
-                        <Target size={14} /> Mais Vendido
+                        <Target size={14} /> Recomendado
                     </div>
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-3 bg-[#CCFF00]/10 rounded-xl text-[#CCFF00]"><Star size={24} /></div>
@@ -276,27 +276,31 @@ const PropostaPage = () => {
                         <span className="text-4xl font-black text-white">R$ 4.500</span>
                         <span className="text-gray-500 ml-2">/mês</span>
                     </div>
-                    <p className="text-gray-300 text-sm mb-8 leading-relaxed min-h-[60px]">
-                        Para quem já roda mas quer previsibilidade. O equilíbrio perfeito entre investimento e retorno rápido.
+                    <p className="text-gray-300 text-sm mb-6 leading-relaxed min-h-[40px]">
+                        Equilíbrio perfeito entre investimento e retorno rápido.
                     </p>
 
                     <a href="https://wa.me/5511933334444?text=Quero%20escalar%20com%20o%20Plano%20Scale" target="_blank" className="block w-full py-4 rounded-xl bg-[#CCFF00] text-black text-center font-black uppercase text-sm hover:bg-white transition-all mb-8 shadow-[0_0_20px_rgba(204,255,0,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
                         Quero Escalar
                     </a>
 
-                    <div className="space-y-4">
+                    <div className="space-y-4 border-t border-[#CCFF00]/20 pt-6">
                         <p className="text-xs font-bold text-[#CCFF00]/70 uppercase tracking-widest mb-2">Tudo do Start, mais:</p>
                         <ul className="space-y-3 text-white text-sm">
                             <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> <span className="font-bold">Google Ads (Search & Maps)</span></li>
                             <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Branding & Posicionamento</li>
-                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Reuniões Quinzenais de Métricas</li>
-                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Otimização de Perfis (OTAs)</li>
+                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Reuniões Quinzenais</li>
+                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Otimização Perfis (OTAs)</li>
                         </ul>
+                        <div className="pt-4 mt-4 border-t border-[#CCFF00]/20">
+                            <p className="text-xs font-bold text-[#CCFF00] uppercase tracking-widest mb-2 flex items-center gap-1"><Zap size={12} /> Bônus Exclusivo:</p>
+                            <p className="text-xs text-gray-300">Consultoria de Revenue Management (Precificação Dinâmica)</p>
+                        </div>
                     </div>
                 </div>
 
                 {/* Vettor Elite */}
-                <div className="glass-card p-8 rounded-3xl border border-white/10 relative group hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 flex flex-col">
+                <div className="glass-card p-6 md:p-8 rounded-3xl border border-white/10 relative group hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 flex flex-col">
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-3 bg-purple-500/10 rounded-xl text-purple-500"><Crown size={24} /></div>
                         <div>
@@ -308,22 +312,26 @@ const PropostaPage = () => {
                         <span className="text-4xl font-black text-white">R$ 8.000</span>
                         <span className="text-gray-500 ml-2">/mês</span>
                     </div>
-                    <p className="text-gray-300 text-sm mb-8 leading-relaxed min-h-[60px]">
-                        Aceleração máxima. CRM, LTV e um gestor sênior dedicado exclusivamente ao seu negócio.
+                    <p className="text-gray-300 text-sm mb-6 leading-relaxed min-h-[40px]">
+                        CRM, LTV e um gestor sênior dedicado ao seu negócio.
                     </p>
 
                     <a href="https://wa.me/5511933334444?text=Tenho%20interesse%20no%20Vettor%20Elite" target="_blank" className="block w-full py-4 rounded-xl bg-purple-900/20 hover:bg-purple-600 text-white text-center font-bold uppercase text-sm transition-all mb-8 border border-purple-500/30 hover:border-purple-500 shadow-lg hover:shadow-purple-500/20">
                         Aplicar para Elite
                     </a>
 
-                    <div className="space-y-4">
+                    <div className="space-y-4 border-t border-white/10 pt-6">
                         <p className="text-xs font-bold text-purple-500/70 uppercase tracking-widest mb-2">Tudo do Scale, mais:</p>
                         <ul className="space-y-3 text-gray-300 text-sm">
                             <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> <span className="font-bold">Exclusividade Regional</span></li>
-                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Implementação de CRM Completo</li>
+                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> CRM Completo + LTV</li>
                             <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Gestor Senior Dedicado</li>
-                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Estratégias de LTV & Email Mkt</li>
+                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Relatórios Semanais</li>
                         </ul>
+                        <div className="pt-4 mt-4 border-t border-purple-500/20">
+                            <p className="text-xs font-bold text-purple-500 uppercase tracking-widest mb-2 flex items-center gap-1"><Star size={12} /> Bônus Exclusivo:</p>
+                            <p className="text-xs text-gray-300">Implementação de Sistema de Fidelidade Próprio</p>
+                        </div>
                     </div>
                 </div>
             </div>
