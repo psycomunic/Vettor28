@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Profile, Booking, Property } from '../../types';
 import { Loader2, Search, BedDouble, AlertCircle } from 'lucide-react';
+import ClientDetailsModal from '../../components/admin/ClientDetailsModal';
 
 interface ClientWithMetrics extends Profile {
     metrics: {
@@ -14,6 +15,11 @@ interface ClientWithMetrics extends Profile {
 
 const AdminClients: React.FC = () => {
     const [clients, setClients] = useState<ClientWithMetrics[]>([]);
+    const [bookings, setBookings] = useState<Booking[]>([]);
+    const [properties, setProperties] = useState<Property[]>([]);
+    const [selectedClient, setSelectedClient] = useState<ClientWithMetrics | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -36,12 +42,14 @@ const AdminClients: React.FC = () => {
                 .select('*');
 
             if (bookingsError) throw bookingsError;
+            setBookings(bookings || []);
 
             const { data: properties, error: propertiesError } = await supabase
                 .from('properties')
                 .select('*');
 
             if (propertiesError) throw propertiesError;
+            setProperties(properties || []);
 
             const enhancedClients: ClientWithMetrics[] = (profiles || []).map(profile => {
                 const clientBookings = (bookings || []).filter((b: Booking) => b.user_id === profile.id);
@@ -134,8 +142,8 @@ const AdminClients: React.FC = () => {
                                     </td>
                                     <td className="p-6 text-center">
                                         <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase ${client.status === 'approved' ? 'bg-green-500/10 text-green-500' :
-                                                client.status === 'rejected' ? 'bg-red-500/10 text-red-500' :
-                                                    'bg-yellow-500/10 text-yellow-500'
+                                            client.status === 'rejected' ? 'bg-red-500/10 text-red-500' :
+                                                'bg-yellow-500/10 text-yellow-500'
                                             }`}>
                                             {client.status === 'approved' ? 'Ativo' : client.status === 'rejected' ? 'Rejeitado' : 'Pendente'}
                                         </span>
@@ -161,7 +169,13 @@ const AdminClients: React.FC = () => {
                                         </div>
                                     </td>
                                     <td className="p-6 text-right">
-                                        <button className="text-[#CCFF00] hover:text-white font-bold text-xs uppercase tracking-widest transition-colors">
+                                        <button
+                                            onClick={() => {
+                                                setSelectedClient(client);
+                                                setIsModalOpen(true);
+                                            }}
+                                            className="text-[#CCFF00] hover:text-white font-bold text-xs uppercase tracking-widest transition-colors"
+                                        >
                                             Detalhes
                                         </button>
                                     </td>
@@ -176,7 +190,15 @@ const AdminClients: React.FC = () => {
                     </table>
                 </div>
             </div>
-        </div>
+
+            <ClientDetailsModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                client={selectedClient}
+                bookings={bookings}
+                properties={properties}
+            />
+        </div >
     );
 };
 
