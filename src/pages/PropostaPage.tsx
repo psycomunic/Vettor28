@@ -224,116 +224,122 @@ const PropostaPage = () => {
     );
 
     const PricingSlide = () => (
-        <div className="flex flex-col items-center justify-center h-full px-6 max-w-7xl mx-auto pt-20 pb-10 overflow-y-auto">
-            <h1 className="text-4xl md:text-5xl font-black mb-12 text-center">Escolha o seu plano de aceleração</h1>
+        <div className="flex flex-col items-center justify-center h-full px-4 md:px-8 max-w-[1400px] mx-auto pt-16 pb-6 overflow-y-auto">
+            <h1 className="text-3xl md:text-5xl font-black mb-12 text-center">ESCOLHA SEU PLANO DE ACELERAÇÃO</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch w-full max-w-7xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end w-full">
+
                 {/* Vettor Start */}
-                <div className="glass-card p-6 md:p-8 rounded-3xl border border-white/10 relative group hover:border-[#CCFF00]/40 hover:bg-white/5 transition-all duration-300 flex flex-col">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="p-3 bg-green-500/10 rounded-xl text-green-500"><Zap size={24} /></div>
-                        <div>
-                            <h3 className="text-xl font-bold text-green-500 uppercase tracking-wide">Vettor Start</h3>
-                            <p className="text-xs text-gray-400 uppercase tracking-widest">Para quem está começando</p>
+                <div className="glass-card rounded-3xl border border-white/10 relative group hover:border-white/20 hover:bg-white/5 transition-all duration-300 flex flex-col p-1 overflow-hidden">
+                    <div className="p-8 pb-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 bg-white/10 rounded-lg text-white"><Zap size={20} /></div>
+                            <h3 className="text-lg font-bold text-white uppercase tracking-wider">Start</h3>
                         </div>
+                        <div className="mb-2">
+                            <span className="text-4xl font-black text-white">R$ 2.500</span>
+                        </div>
+                        <p className="text-gray-400 text-xs uppercase tracking-widest mb-6">/mês</p>
+                        <p className="text-gray-300 text-sm mb-6 leading-relaxed">
+                            Fundação sólida para profissionalizar sua hospedagem.
+                        </p>
+                        <a href="https://wa.me/5511933334444?text=Quero%20começar%20com%20o%20Plano%20Start" target="_blank" className="block w-full py-3 rounded-lg bg-white/10 hover:bg-white hover:text-black text-center font-bold uppercase text-xs transition-all border border-white/10">
+                            Selecionar
+                        </a>
                     </div>
-                    <div className="mb-6">
-                        <span className="text-4xl font-black text-white">R$ 2.500</span>
-                        <span className="text-gray-500 ml-2">/mês</span>
-                    </div>
-                    <p className="text-gray-300 text-sm mb-6 leading-relaxed min-h-[40px]">
-                        A estrutura fundamental para profissionalizar sua hospedagem.
-                    </p>
-
-                    <a href="https://wa.me/5511933334444?text=Quero%20começar%20com%20o%20Plano%20Start" target="_blank" className="block w-full py-4 rounded-xl bg-white/5 hover:bg-green-500 hover:text-black text-center font-bold uppercase text-sm transition-all mb-8 border border-white/10 hover:border-green-500 shadow-lg hover:shadow-green-500/20">
-                        Escolher Start
-                    </a>
-
-                    <div className="space-y-4 border-t border-white/10 pt-6">
-                        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Incluso:</p>
-                        <ul className="space-y-3 text-gray-300 text-sm">
-                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Diagnóstico Estratégico</li>
-                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Gestão de Tráfego (Meta)</li>
-                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Relatórios Mensais</li>
-                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Atendimento WhatsApp</li>
-                        </ul>
+                    <div className="bg-black/20 p-8 pt-6 flex-1 space-y-6">
+                        <div>
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">O que inclui</p>
+                            <ul className="space-y-3 text-gray-400 text-sm">
+                                <li className="flex gap-3"><Check size={14} className="text-white shrink-0 mt-0.5" /> Diagnóstico inicial</li>
+                                <li className="flex gap-3"><Check size={14} className="text-white shrink-0 mt-0.5" /> Estratégia de Preços</li>
+                                <li className="flex gap-3"><Check size={14} className="text-white shrink-0 mt-0.5" /> Tráfego Pago (Meta)</li>
+                                <li className="flex gap-3"><Check size={14} className="text-white shrink-0 mt-0.5" /> Relatórios Mensais</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                {/* Vettor Scale */}
-                <div className="glass-card p-6 md:p-8 rounded-3xl border border-[#CCFF00]/50 bg-[#CCFF00]/5 relative transform md:-translate-y-6 shadow-[0_0_40px_-10px_rgba(204,255,0,0.15)] flex flex-col hover:scale-[1.02] transition-transform duration-300 z-10">
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#CCFF00] text-black px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
-                        <Target size={14} /> Recomendado
-                    </div>
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="p-3 bg-[#CCFF00]/10 rounded-xl text-[#CCFF00]"><Star size={24} /></div>
-                        <div>
-                            <h3 className="text-xl font-bold text-[#CCFF00] uppercase tracking-wide">Vettor Scale</h3>
-                            <p className="text-xs text-[#CCFF00]/70 uppercase tracking-widest">Tração & Crescimento</p>
+                {/* Vettor Scale - HERO */}
+                <div className="rounded-3xl border border-[#CCFF00] bg-[#CCFF00]/5 relative transform md:-translate-y-8 shadow-[0_0_60px_-15px_rgba(204,255,0,0.3)] flex flex-col p-1 overflow-hidden z-20">
+                    <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#CCFF00] to-transparent" />
+                    <div className="absolute -top-5 left-1/2 -translate-x-1/2">
+                        <div className="bg-[#CCFF00] text-black px-6 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(204,255,0,0.6)] flex items-center gap-2">
+                            <Target size={14} className="animate-pulse" /> Mais Escolhido
                         </div>
                     </div>
-                    <div className="mb-6">
-                        <span className="text-4xl font-black text-white">R$ 4.500</span>
-                        <span className="text-gray-500 ml-2">/mês</span>
+
+                    <div className="p-10 pb-6 relative">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-[#CCFF00] rounded-lg text-black"><Star size={20} fill="black" /></div>
+                            <h3 className="text-2xl font-black text-[#CCFF00] uppercase tracking-wider">Scale</h3>
+                        </div>
+                        <div className="mb-2">
+                            <span className="text-6xl font-black text-white tracking-tighter">R$ 4.500</span>
+                        </div>
+                        <p className="text-[#CCFF00]/80 text-xs uppercase tracking-widest mb-8">/mês</p>
+
+                        <p className="text-white text-base mb-8 leading-relaxed font-medium">
+                            Aceleração agressiva para quem busca previsibilidade e lucro real.
+                        </p>
+
+                        <a href="https://wa.me/5511933334444?text=Quero%20escalar%20com%20o%20Plano%20Scale" target="_blank" className="block w-full py-4 rounded-xl bg-[#CCFF00] text-black text-center font-black uppercase text-sm hover:bg-white hover:scale-[1.02] transition-all shadow-[0_0_30px_-5px_rgba(204,255,0,0.4)]">
+                            Quero Escalar
+                        </a>
                     </div>
-                    <p className="text-gray-300 text-sm mb-6 leading-relaxed min-h-[40px]">
-                        Equilíbrio perfeito entre investimento e retorno rápido.
-                    </p>
 
-                    <a href="https://wa.me/5511933334444?text=Quero%20escalar%20com%20o%20Plano%20Scale" target="_blank" className="block w-full py-4 rounded-xl bg-[#CCFF00] text-black text-center font-black uppercase text-sm hover:bg-white transition-all mb-8 shadow-[0_0_20px_rgba(204,255,0,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
-                        Quero Escalar
-                    </a>
-
-                    <div className="space-y-4 border-t border-[#CCFF00]/20 pt-6">
-                        <p className="text-xs font-bold text-[#CCFF00]/70 uppercase tracking-widest mb-2">Tudo do Start, mais:</p>
-                        <ul className="space-y-3 text-white text-sm">
-                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> <span className="font-bold">Google Ads (Search & Maps)</span></li>
-                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Branding & Posicionamento</li>
-                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Reuniões Quinzenais</li>
-                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Otimização Perfis (OTAs)</li>
-                        </ul>
-                        <div className="pt-4 mt-4 border-t border-[#CCFF00]/20">
-                            <p className="text-xs font-bold text-[#CCFF00] uppercase tracking-widest mb-2 flex items-center gap-1"><Zap size={12} /> Bônus Exclusivo:</p>
-                            <p className="text-xs text-gray-300">Consultoria de Revenue Management (Precificação Dinâmica)</p>
+                    <div className="bg-[#CCFF00]/5 p-10 pt-8 flex-1 space-y-8">
+                        <div>
+                            <p className="text-[10px] font-bold text-[#CCFF00]/60 uppercase tracking-widest mb-4">Features Premium</p>
+                            <ul className="space-y-4 text-white text-sm font-medium">
+                                <li className="flex gap-3"><span className="p-1 rounded bg-[#CCFF00]/20 text-[#CCFF00]"><Check size={12} /></span> <span>Tudo do Start</span></li>
+                                <li className="flex gap-3"><span className="p-1 rounded bg-[#CCFF00]/20 text-[#CCFF00]"><Check size={12} /></span> <span>Google Adwords & Maps</span></li>
+                                <li className="flex gap-3"><span className="p-1 rounded bg-[#CCFF00]/20 text-[#CCFF00]"><Check size={12} /></span> <span>Otimização de OTAs</span></li>
+                                <li className="flex gap-3"><span className="p-1 rounded bg-[#CCFF00]/20 text-[#CCFF00]"><Check size={12} /></span> <span>Reuniões Quinzenais</span></li>
+                            </ul>
+                        </div>
+                        <div className="p-4 rounded-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20">
+                            <p className="text-[10px] font-bold text-[#CCFF00] uppercase tracking-widest mb-2 flex items-center gap-1"><Zap size={12} /> Bônus Exclusivo</p>
+                            <p className="text-xs text-white/90">Consultoria completa de Revenue Management para otimização de diárias.</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Vettor Elite */}
-                <div className="glass-card p-6 md:p-8 rounded-3xl border border-white/10 relative group hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 flex flex-col">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="p-3 bg-purple-500/10 rounded-xl text-purple-500"><Crown size={24} /></div>
-                        <div>
-                            <h3 className="text-xl font-bold text-purple-500 uppercase tracking-wide">Vettor Elite</h3>
-                            <p className="text-xs text-gray-400 uppercase tracking-widest">Domínio de Mercado</p>
+                <div className="glass-card rounded-3xl border border-white/10 relative group hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 flex flex-col p-1 overflow-hidden">
+                    <div className="p-8 pb-4">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400"><Crown size={20} /></div>
+                            <h3 className="text-lg font-bold text-purple-400 uppercase tracking-wider">Elite</h3>
                         </div>
+                        <div className="mb-2">
+                            <span className="text-4xl font-black text-white">R$ 8.000</span>
+                        </div>
+                        <p className="text-purple-400/60 text-xs uppercase tracking-widest mb-6">/mês</p>
+                        <p className="text-gray-300 text-sm mb-6 leading-relaxed">
+                            Gestão de alto nível com dedicação exclusiva e growth hacking.
+                        </p>
+                        <a href="https://wa.me/5511933334444?text=Tenho%20interesse%20no%20Vettor%20Elite" target="_blank" className="block w-full py-3 rounded-lg bg-purple-500/10 hover:bg-purple-500 text-white text-center font-bold uppercase text-xs transition-all border border-purple-500/30">
+                            Aplicar agora
+                        </a>
                     </div>
-                    <div className="mb-6">
-                        <span className="text-4xl font-black text-white">R$ 8.000</span>
-                        <span className="text-gray-500 ml-2">/mês</span>
-                    </div>
-                    <p className="text-gray-300 text-sm mb-6 leading-relaxed min-h-[40px]">
-                        CRM, LTV e um gestor sênior dedicado ao seu negócio.
-                    </p>
-
-                    <a href="https://wa.me/5511933334444?text=Tenho%20interesse%20no%20Vettor%20Elite" target="_blank" className="block w-full py-4 rounded-xl bg-purple-900/20 hover:bg-purple-600 text-white text-center font-bold uppercase text-sm transition-all mb-8 border border-purple-500/30 hover:border-purple-500 shadow-lg hover:shadow-purple-500/20">
-                        Aplicar para Elite
-                    </a>
-
-                    <div className="space-y-4 border-t border-white/10 pt-6">
-                        <p className="text-xs font-bold text-purple-500/70 uppercase tracking-widest mb-2">Tudo do Scale, mais:</p>
-                        <ul className="space-y-3 text-gray-300 text-sm">
-                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> <span className="font-bold">Exclusividade Regional</span></li>
-                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> CRM Completo + LTV</li>
-                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Gestor Senior Dedicado</li>
-                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Relatórios Semanais</li>
-                        </ul>
-                        <div className="pt-4 mt-4 border-t border-purple-500/20">
-                            <p className="text-xs font-bold text-purple-500 uppercase tracking-widest mb-2 flex items-center gap-1"><Star size={12} /> Bônus Exclusivo:</p>
-                            <p className="text-xs text-gray-300">Implementação de Sistema de Fidelidade Próprio</p>
+                    <div className="bg-black/20 p-8 pt-6 flex-1 space-y-6">
+                        <div>
+                            <p className="text-[10px] font-bold text-purple-500/60 uppercase tracking-widest mb-3">Exclusividade</p>
+                            <ul className="space-y-3 text-gray-400 text-sm">
+                                <li className="flex gap-3"><Check size={14} className="text-purple-400 shrink-0 mt-0.5" /> Tudo do Scale</li>
+                                <li className="flex gap-3"><Check size={14} className="text-purple-400 shrink-0 mt-0.5" /> Exclusividade Regional</li>
+                                <li className="flex gap-3"><Check size={14} className="text-purple-400 shrink-0 mt-0.5" /> Gestor Dedicado</li>
+                                <li className="flex gap-3"><Check size={14} className="text-purple-400 shrink-0 mt-0.5" /> Implementação de CRM</li>
+                            </ul>
+                        </div>
+                        <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                            <p className="text-[10px] font-bold text-purple-400 uppercase tracking-widest mb-1 flex items-center gap-1"><Star size={10} /> Bônus</p>
+                            <p className="text-xs text-gray-400">Sistema de Fidelidade Próprio</p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     );
