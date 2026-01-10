@@ -111,7 +111,18 @@ const BookingsPage: React.FC = () => {
     };
 
     const openEdit = (b: Booking) => {
-        setFormData({ ...b } as any);
+        setFormData({
+            property_id: b.property_id,
+            guest_name: b.guest_name,
+            check_in: b.check_in,
+            check_out: b.check_out,
+            gross_value: b.gross_value,
+            channel: b.channel,
+            channel_fee_value: b.channel_fee_value || 0,
+            ad_cost: b.ad_cost || 0,
+            status: b.status,
+            notes: b.notes || '',
+        });
         setEditingId(b.id);
         setIsModalOpen(true);
     };
