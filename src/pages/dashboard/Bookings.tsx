@@ -79,8 +79,8 @@ const BookingsPage: React.FC = () => {
             setEditingId(null);
             resetForm();
             fetchBookings();
-        } catch (error) {
-            alert('Erro ao salvar reserva');
+        } catch (error: any) {
+            alert(`Erro ao salvar reserva: ${error.message || error.details || JSON.stringify(error)}`);
             console.error(error);
         } finally {
             setLoading(false);

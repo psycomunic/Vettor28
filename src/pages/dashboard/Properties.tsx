@@ -55,8 +55,8 @@ const PropertiesPage: React.FC = () => {
             setEditingId(null);
             setFormData({ name: '', type: 'chale', city: '', state: '', avg_daily_rate: 0, fixed_cost_monthly: 0 });
             fetchProperties();
-        } catch (error) {
-            alert('Erro ao salvar estabelecimento');
+        } catch (error: any) {
+            alert(`Erro ao salvar estabelecimento: ${error.message || error.details || JSON.stringify(error)}`);
             console.error(error);
         } finally {
             setLoading(false);
