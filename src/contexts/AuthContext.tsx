@@ -7,6 +7,7 @@ interface AuthContextType {
     user: User | null;
     loading: boolean;
     isAdmin: boolean;
+    isApproved: boolean; // New field
     signOut: () => Promise<void>;
 }
 
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     loading: true,
     isAdmin: false,
+    isApproved: false,
     signOut: async () => { },
 });
 
@@ -23,12 +25,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isApproved, setIsApproved] = useState(false);
 
     useEffect(() => {
         const fetchProfile = async (uid: string) => {
-            const { data } = await supabase.from('profiles').select('role').eq('id', uid).single();
+            const { data } = await supabase.from('profiles').select('role, status').eq('id', uid).single();
             if (data?.role === 'admin') setIsAdmin(true);
             else setIsAdmin(false);
+
+            // Check status
+            if (data?.status === 'approved') setIsApproved(true);
+            else setIsApproved(false);
         };
 
         // Check active session
@@ -47,7 +54,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setSession(session);
             setUser(session?.user ?? null);
             if (session?.user) fetchProfile(session.user.id);
-            else setIsAdmin(false);
+            else {
+                setIsAdmin(false);
+                setIsApproved(false);
+            }
             setLoading(false);
         });
 
@@ -57,10 +67,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const signOut = async () => {
         await supabase.auth.signOut();
         setIsAdmin(false);
+        setIsApproved(false);
     };
 
     return (
-        <AuthContext.Provider value={{ session, user, loading, signOut, isAdmin }}>
+        <AuthContext.Provider value={{ session, user, loading, signOut, isAdmin, isApproved }}>
             {children}
         </AuthContext.Provider>
     );

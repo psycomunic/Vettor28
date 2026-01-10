@@ -3,6 +3,11 @@ export interface Profile {
     name: string | null;
     company_name: string | null;
     role: 'client' | 'admin';
+    status: 'pending' | 'approved' | 'rejected';
+    logo_url?: string | null;
+    whatsapp?: string | null;
+    website?: string | null;
+    address?: string | null;
     created_at: string;
 }
 

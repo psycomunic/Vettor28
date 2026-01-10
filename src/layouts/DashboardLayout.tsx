@@ -9,7 +9,8 @@ import {
     User,
     Menu,
     X,
-    ChevronDown
+    ChevronDown,
+    Settings
 } from 'lucide-react';
 
 const DashboardLayout: React.FC = () => {
@@ -26,6 +27,7 @@ const DashboardLayout: React.FC = () => {
         { name: 'Visão Geral', path: '/dashboard', icon: <LayoutDashboard size={20} />, end: true },
         { name: 'Estabelecimentos', path: '/dashboard/properties', icon: <Building2 size={20} /> },
         { name: 'Reservas', path: '/dashboard/bookings', icon: <CalendarCheck size={20} /> },
+        { name: 'Configurações', path: '/dashboard/settings', icon: <Settings size={20} /> },
     ];
 
     return (

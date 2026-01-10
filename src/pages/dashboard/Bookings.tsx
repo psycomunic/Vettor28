@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Booking, Property } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { Plus, Trash2, Edit2, Loader2, CalendarCheck, Filter, Download } from 'lucide-react';
+import { Plus, Trash2, Edit2, Loader2, CalendarCheck, Filter, Download, Printer } from 'lucide-react';
 import { NeonButton } from '../../components/Shared';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isWithinInterval, addMonths, subMonths, startOfWeek, endOfWeek, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -276,6 +276,13 @@ const BookingsPage: React.FC = () => {
                                     </td>
                                     <td className="p-4 text-right">
                                         <div className="flex justify-end gap-2">
+                                            <button
+                                                onClick={() => window.open(`/voucher/${b.id}`, '_blank')}
+                                                className="p-2 hover:bg-white/10 rounded text-blue-400"
+                                                title="Imprimir Voucher"
+                                            >
+                                                <Printer size={16} />
+                                            </button>
                                             <button onClick={() => openEdit(b)} className="p-2 hover:bg-white/10 rounded text-gray-400"><Edit2 size={16} /></button>
                                             <button onClick={() => handleDelete(b.id)} className="p-2 hover:bg-red-500/10 rounded text-red-500"><Trash2 size={16} /></button>
                                         </div>
