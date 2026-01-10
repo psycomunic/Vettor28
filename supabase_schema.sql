@@ -49,6 +49,8 @@ create table public.properties (
   state text,
   avg_daily_rate numeric default 0,
   fixed_cost_monthly numeric default 0,
+  marketing_invest_monthly numeric default 0,
+  photo_url text,
   created_at timestamptz default now()
 );
 
