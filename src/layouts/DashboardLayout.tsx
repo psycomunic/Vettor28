@@ -10,11 +10,12 @@ import {
     Menu,
     X,
     ChevronDown,
-    Settings
+    Settings,
+    ShieldAlert
 } from 'lucide-react';
 
 const DashboardLayout: React.FC = () => {
-    const { user, signOut } = useAuth();
+    const { user, signOut, isAdmin } = useAuth();
     const navigate = useNavigate();
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
@@ -28,6 +29,7 @@ const DashboardLayout: React.FC = () => {
         { name: 'Estabelecimentos', path: '/dashboard/properties', icon: <Building2 size={20} /> },
         { name: 'Reservas', path: '/dashboard/bookings', icon: <CalendarCheck size={20} /> },
         { name: 'Configurações', path: '/dashboard/settings', icon: <Settings size={20} /> },
+        ...(isAdmin ? [{ name: 'Painel Admin', path: '/admin', icon: <ShieldAlert size={20} /> }] : [])
     ];
 
     return (

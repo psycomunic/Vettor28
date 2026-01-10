@@ -39,10 +39,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
 
         // Check active session
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        supabase.auth.getSession().then(async ({ data: { session } }) => {
             setSession(session);
             setUser(session?.user ?? null);
-            if (session?.user) fetchProfile(session.user.id);
+            if (session?.user) {
+                await fetchProfile(session.user.id);
+            }
             setLoading(false);
         }).catch((err) => {
             console.error('Auth session error:', err);
@@ -50,11 +52,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
 
         // Listen for changes
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
             setSession(session);
             setUser(session?.user ?? null);
-            if (session?.user) fetchProfile(session.user.id);
-            else {
+            if (session?.user) {
+                setLoading(true); // Ensure loading is true while fetching profile on change
+                await fetchProfile(session.user.id);
+            } else {
                 setIsAdmin(false);
                 setIsApproved(false);
             }
