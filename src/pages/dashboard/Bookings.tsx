@@ -1,48 +1,144 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
-import { Booking, Property } from '../../types';
-import { useAuth } from '../../contexts/AuthContext';
-import { Plus, Trash2, Edit2, Loader2, CalendarCheck, Filter, Download, Printer } from 'lucide-react';
-import { NeonButton } from '../../components/Shared';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isWithinInterval, addMonths, subMonths, startOfWeek, endOfWeek, parseISO } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
+// ... (existing imports)
 
 const BookingsPage: React.FC = () => {
-    const { user } = useAuth();
-    const [bookings, setBookings] = useState<Booking[]>([]);
-    const [properties, setProperties] = useState<Property[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingId, setEditingId] = useState<string | null>(null);
-
-    // Filters
-    const [filterProperty, setFilterProperty] = useState('all');
-
-    // Form State
-    const [formData, setFormData] = useState({
-        property_id: '',
-        guest_name: '',
-        check_in: '',
-        check_out: '',
-        gross_value: 0,
-        channel: 'direct',
-        channel_fee_value: 0,
-        ad_cost: 0,
-        status: 'confirmed',
-        notes: '',
-    });
+    // ... (existing state)
+    const [companyProfile, setCompanyProfile] = useState<any>(null);
 
     useEffect(() => {
         if (user) {
             fetchProperties();
             fetchBookings();
+            fetchCompanyProfile();
         }
     }, [user]);
 
-    const fetchProperties = async () => {
-        const { data } = await supabase.from('properties').select('*');
-        if (data) setProperties(data);
+    const fetchCompanyProfile = async () => {
+        const { data } = await supabase.from('profiles').select('*').eq('id', user?.id).single();
+        if (data) setCompanyProfile(data);
     };
+
+    // ... (existing functions)
+
+    const handlePrintBooking = async (booking: Booking) => {
+        const doc = new jsPDF();
+
+        // --- Header Section ---
+        let yPos = 20;
+
+        // Logo
+        if (companyProfile?.logo_url) {
+            try {
+                // Fetch image to get base64 or add directly if supported/CORS allows
+                // For simplicity, providing the URL to addImage (might need wrapped in try/catch or fetch blob first)
+                // jsPDF often needs Base64. Let's try direct URL first, if fails we might need a fetch helper.
+                // Actually, standard approach: fetch -> blob -> reader -> base64
+                const imgData = await fetchImageAsBase64(companyProfile.logo_url);
+                if (imgData) {
+                    doc.addImage(imgData, 'PNG', 15, 10, 30, 30); // Adjust aspect ratio as needed
+                }
+            } catch (e) {
+                console.error("Could not load logo", e);
+            }
+        } else {
+            // Fallback text logo
+            doc.setFontSize(10);
+            doc.setTextColor(150);
+            doc.text("LOGO", 20, 25);
+        }
+
+        // Company Details
+        doc.setFontSize(18);
+        doc.setTextColor(0, 51, 102); // Dark Blue
+        doc.setFont("helvetica", "bold");
+        doc.text(companyProfile?.company_name || "Sua Empresa", 195, 20, { align: 'right' });
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(100);
+        doc.text(companyProfile?.website || "", 195, 26, { align: 'right' });
+        doc.text(companyProfile?.whatsapp || "", 195, 31, { align: 'right' });
+
+        // Line Break
+        doc.setDrawColor(200);
+        doc.line(15, 45, 195, 45);
+
+        // --- Content ---
+        yPos = 60;
+
+        doc.setFontSize(16);
+        doc.setTextColor(0);
+        doc.setFont("helvetica", "bold");
+        doc.text("Reserva Confirmada", 105, yPos, { align: 'center' });
+
+        doc.setFontSize(10);
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(100);
+        doc.text(`Voucher #${booking.id.slice(0, 8).toUpperCase()}`, 105, yPos + 6, { align: 'center' });
+
+        yPos += 20;
+
+        // Guest & Property Info Grid (simulated with text)
+        doc.setFontSize(12);
+        doc.setTextColor(0);
+        doc.setFont("helvetica", "bold");
+        doc.text("Detalhes da Reserva", 15, yPos);
+
+        yPos += 8;
+
+        autoTable(doc, {
+            startY: yPos,
+            head: [['Item', 'Detalhe']],
+            body: [
+                ['Hóspede', booking.guest_name],
+                ['Acomodação', (booking.property as any)?.name || 'N/A'],
+                ['Check-in', format(new Date(booking.check_in), 'dd/MM/yyyy')],
+                ['Check-out', format(new Date(booking.check_out), 'dd/MM/yyyy')],
+                ['Canal', booking.channel.toUpperCase()],
+                ['Status', booking.status === 'confirmed' ? 'CONFIRMADA' : booking.status],
+                ['Valor Total', new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(booking.gross_value)]
+            ],
+            theme: 'grid',
+            headStyles: { fillColor: [0, 51, 102], textColor: 255 },
+            styles: { fontSize: 10, cellPadding: 4 },
+            columnStyles: { 0: { fontStyle: 'bold', cellWidth: 60 } }
+        });
+
+        // Footer
+        const finalY = (doc as any).lastAutoTable.finalY + 20;
+        doc.setFontSize(9);
+        doc.setTextColor(150);
+        doc.text("Este documento serve como comprovante de sua reserva.", 105, finalY, { align: 'center' });
+        doc.text(`Gerado em ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 105, finalY + 5, { align: 'center' });
+
+        doc.save(`voucher_${booking.guest_name.split(' ')[0]}_${booking.id.slice(0, 6)}.pdf`);
+    };
+
+    const fetchImageAsBase64 = async (url: string): Promise<string | null> => {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result as string);
+                reader.readAsDataURL(blob);
+            });
+        } catch (e) {
+            console.error("Error converting image", e);
+            return null;
+        }
+    };
+
+    // ... (render)
+    <button
+        onClick={() => handlePrintBooking(b)}
+        className="p-2 hover:bg-white/10 rounded text-blue-400"
+        title="Baixar PDF"
+    >
+        <Printer size={16} />
+    </button>
 
     const fetchBookings = async () => {
         setLoading(true);
