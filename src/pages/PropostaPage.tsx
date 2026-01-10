@@ -224,12 +224,12 @@ const PropostaPage = () => {
     );
 
     const PricingSlide = () => (
-        <div className="flex flex-col items-center justify-center h-full px-4 md:px-6 max-w-[1600px] mx-auto pt-10 pb-6 overflow-y-auto">
+        <div className="flex flex-col items-center justify-center h-full px-4 md:px-6 max-w-[1600px] mx-auto pt-10 pb-32 overflow-y-auto custom-scrollbar">
             <div className="text-center mb-10">
-                <h1 className="text-4xl md:text-6xl font-black mb-2 tracking-tight">
+                <h1 className="text-4xl md:text-6xl font-black mb-2 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                     Planos Estratégicos
                 </h1>
-                <h1 className="text-4xl md:text-6xl font-black text-[#CCFF00] tracking-tight mb-4">
+                <h1 className="text-4xl md:text-6xl font-black text-[#CCFF00] tracking-tight mb-4 drop-shadow-[0_0_25px_rgba(204,255,0,0.5)]">
                     Vettor28
                 </h1>
                 <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light">
@@ -237,7 +237,7 @@ const PropostaPage = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl items-start">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl items-start pb-20">
 
                 {/* Vettor Start */}
                 <div className="rounded-3xl border border-white/10 bg-[#0A0A0A] hover:border-green-500/30 transition-all duration-300 flex flex-col overflow-hidden relative group h-full">
