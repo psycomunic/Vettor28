@@ -2,23 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Booking, Property } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { Plus, Trash2, Edit2, Loader2, Filter, Download, Printer, Tag } from 'lucide-react';
+import { Plus, Trash2, Edit2, Loader2, CalendarCheck, Filter, Tag } from 'lucide-react';
 import { NeonButton } from '../../components/Shared';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import { format } from 'date-fns';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isWithinInterval, addMonths, subMonths, startOfWeek, endOfWeek, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
-const BookingsPage: React.FC = () => {
+const CalendarPage: React.FC = () => {
     const { user } = useAuth();
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [companyProfile, setCompanyProfile] = useState<any>(null);
 
     // Filters
     const [filterProperty, setFilterProperty] = useState('all');
+
+    // Calendar State
+    const [currentDate, setCurrentDate] = useState(new Date());
 
     // Form State
     const [formData, setFormData] = useState({
@@ -36,21 +37,14 @@ const BookingsPage: React.FC = () => {
         tags: [] as string[],
     });
 
-    // Helper for tag input (comma separated)
     const [tagInput, setTagInput] = useState('');
 
     useEffect(() => {
         if (user) {
             fetchProperties();
             fetchBookings();
-            fetchCompanyProfile();
         }
     }, [user]);
-
-    const fetchCompanyProfile = async () => {
-        const { data } = await supabase.from('profiles').select('*').eq('id', user?.id).single();
-        if (data) setCompanyProfile(data);
-    };
 
     const fetchProperties = async () => {
         const { data } = await supabase.from('properties').select('*');
@@ -73,7 +67,6 @@ const BookingsPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            // Parse tags from input if not empty, otherwise keep existing or empty
             const finalTags = tagInput
                 ? tagInput.split(',').map(t => t.trim()).filter(Boolean)
                 : formData.tags;
@@ -142,144 +135,54 @@ const BookingsPage: React.FC = () => {
         setIsModalOpen(true);
     };
 
-    const exportCSV = () => {
-        const headers = ['Guest', 'Check-In', 'Check-Out', 'Gross Value', 'Channel', 'Detailed Channel', 'Ad Cost', 'Status', 'Property', 'Tags'];
-        const rows = filteredBookings.map(b => [
-            b.guest_name,
-            b.check_in,
-            b.check_out,
-            b.gross_value,
-            b.channel,
-            b.detailed_channel || '',
-            b.ad_cost,
-            b.status,
-            (b.property as any)?.name,
-            (b.tags || []).join('; ')
-        ]);
-        const csvContent = "data:text/csv;charset=utf-8,"
-            + [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
+    const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
 
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "reservas_vettor28.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+    const onDateClick = (date: Date) => {
+        resetForm();
+        setFormData(prev => ({
+            ...prev,
+            check_in: format(date, 'yyyy-MM-dd'),
+            check_out: format(date, 'yyyy-MM-dd')
+        }));
+        setIsModalOpen(true);
     };
 
-    const fetchImageAsBase64 = async (url: string): Promise<string | null> => {
-        try {
-            const response = await fetch(url);
-            const blob = await response.blob();
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result as string);
-                reader.readAsDataURL(blob);
-            });
-        } catch (e) {
-            console.error("Error converting image", e);
-            return null;
-        }
-    };
-
-    const handlePrintBooking = async (booking: Booking) => {
-        const doc = new jsPDF();
-        let yPos = 20;
-
-        if (companyProfile?.logo_url) {
-            try {
-                const imgData = await fetchImageAsBase64(companyProfile.logo_url);
-                if (imgData) {
-                    doc.addImage(imgData, 'PNG', 15, 10, 30, 30);
-                }
-            } catch (e) {
-                console.error("Could not load logo", e);
-            }
-        } else {
-            doc.setFontSize(10);
-            doc.setTextColor(150);
-            doc.text("LOGO", 20, 25);
-        }
-
-        doc.setFontSize(18);
-        doc.setTextColor(0, 51, 102);
-        doc.setFont("helvetica", "bold");
-        doc.text(companyProfile?.company_name || "Sua Empresa", 195, 20, { align: 'right' });
-
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(100);
-        doc.text(companyProfile?.website || "", 195, 26, { align: 'right' });
-        doc.text(companyProfile?.whatsapp || "", 195, 31, { align: 'right' });
-
-        doc.setDrawColor(200);
-        doc.line(15, 45, 195, 45);
-
-        yPos = 60;
-        doc.setFontSize(16);
-        doc.setTextColor(0);
-        doc.setFont("helvetica", "bold");
-        doc.text("Reserva Confirmada", 105, yPos, { align: 'center' });
-
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(100);
-        doc.text(`Voucher #${booking.id.slice(0, 8).toUpperCase()}`, 105, yPos + 6, { align: 'center' });
-
-        yPos += 20;
-        doc.setFontSize(12);
-        doc.setTextColor(0);
-        doc.setFont("helvetica", "bold");
-        doc.text("Detalhes da Reserva", 15, yPos);
-        yPos += 8;
-
-        autoTable(doc, {
-            startY: yPos,
-            head: [['Item', 'Detalhe']],
-            body: [
-                ['Hóspede', booking.guest_name],
-                ['Acomodação', (booking.property as any)?.name || 'N/A'],
-                ['Check-in', format(new Date(booking.check_in), 'dd/MM/yyyy')],
-                ['Check-out', format(new Date(booking.check_out), 'dd/MM/yyyy')],
-                ['Canal', booking.channel.toUpperCase()],
-                ['Origem Detalhada', booking.detailed_channel || '-'],
-                ['Status', booking.status === 'confirmed' ? 'CONFIRMADA' : booking.status],
-                ['Valor Total', new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(booking.gross_value)]
-            ],
-            theme: 'grid',
-            headStyles: { fillColor: [0, 51, 102], textColor: 255 },
-            styles: { fontSize: 10, cellPadding: 4 },
-            columnStyles: { 0: { fontStyle: 'bold', cellWidth: 60 } }
+    const getBookingsForDay = (date: Date) => {
+        return filteredBookings.filter(b => {
+            const start = parseISO(b.check_in);
+            const end = parseISO(b.check_out);
+            return isWithinInterval(date, { start, end });
         });
+    };
 
-        const finalY = (doc as any).lastAutoTable.finalY + 20;
-        doc.setFontSize(9);
-        doc.setTextColor(150);
-        doc.text("Este documento serve como comprovante de sua reserva.", 105, finalY, { align: 'center' });
-        doc.text(`Gerado em ${format(new Date(), 'dd/MM/yyyy HH:mm')}`, 105, finalY + 5, { align: 'center' });
+    const getBookingStyle = (b: Booking) => {
+        if (b.status === 'cancelled') return 'bg-gray-500/50 text-gray-400 line-through';
+        if (b.status === 'pending') return 'bg-yellow-500/80 text-black border border-yellow-500';
 
-        doc.save(`voucher_${booking.guest_name?.split(' ')[0]}_${booking.id.slice(0, 6)}.pdf`);
+        // Confirmed status - differentiate by channel
+        switch (b.channel) {
+            case 'booking': return 'bg-[#003580] text-white';
+            case 'airbnb': return 'bg-[#FF5A5F] text-white';
+            case 'direct': return 'bg-[#CCFF00] text-black';
+            default: return 'bg-purple-600 text-white';
+        }
     };
 
     return (
         <div>
             <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-8">
                 <div>
-                    <h1 className="text-3xl font-brand font-black text-white">Reservas</h1>
-                    <p className="text-gray-400 text-sm">Controle total de ocupação.</p>
+                    <h1 className="text-3xl font-brand font-black text-white">Calendário Inteligente</h1>
+                    <p className="text-gray-400 text-sm">Visão completa da sua ocupação.</p>
                 </div>
-                <div className="flex gap-4">
-                    <NeonButton variant="outline" onClick={exportCSV} className="!py-3 !px-4 text-xs">
-                        <Download size={16} /> CSV
-                    </NeonButton>
+                <div>
                     <NeonButton onClick={() => { setEditingId(null); resetForm(); setIsModalOpen(true); }} className="!py-3 !px-4 text-xs">
                         <Plus size={16} /> Nova Reserva
                     </NeonButton>
                 </div>
             </div>
 
-            {/* Filters */}
             <div className="bg-white/5 border border-white/5 rounded-xl p-4 mb-6 flex flex-wrap gap-4 items-center justify-between">
                 <div className="flex items-center gap-4">
                     <Filter size={16} className="text-gray-500" />
@@ -294,72 +197,77 @@ const BookingsPage: React.FC = () => {
                         ))}
                     </select>
                 </div>
+
+                {/* Legend */}
+                <div className="flex items-center gap-3 text-[10px] text-gray-400 hidden md:flex">
+                    <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#CCFF00]"></div> Direto</div>
+                    <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#003580]"></div> Booking</div>
+                    <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#FF5A5F]"></div> Airbnb</div>
+                    <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-yellow-500"></div> Pendente</div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <button onClick={prevMonth} className="text-gray-400 hover:text-[#CCFF00] font-bold">&lt;</button>
+                    <span className="text-white font-black uppercase text-sm tracking-widest">
+                        {format(currentDate, 'MMMM yyyy', { locale: ptBR })}
+                    </span>
+                    <button onClick={nextMonth} className="text-gray-400 hover:text-[#CCFF00] font-bold">&gt;</button>
+                </div>
             </div>
 
-            {/* Table View */}
-            <div className="glass-card rounded-3xl border-white/5 overflow-hidden overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                    <thead className="bg-white/5 uppercase text-xs font-bold text-gray-500 tracking-widest">
-                        <tr>
-                            <th className="p-4">Hóspede</th>
-                            <th className="p-4">Check-in / Out</th>
-                            <th className="p-4">Valor</th>
-                            <th className="p-4">Canal</th>
-                            <th className="p-4">Status</th>
-                            <th className="p-4 text-right">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5">
-                        {filteredBookings.map(b => (
-                            <tr key={b.id} className="hover:bg-white/[0.02]">
-                                <td className="p-4">
-                                    <div className="font-bold text-white">{b.guest_name}</div>
-                                    <div className="text-xs text-gray-500">{(b.property as any)?.name}</div>
-                                    {b.tags && b.tags.length > 0 && (
-                                        <div className="flex flex-wrap gap-1 mt-1">
-                                            {b.tags.map((tag: string, idx: number) => (
-                                                <span key={idx} className="bg-white/10 text-[10px] px-1.5 py-0.5 rounded text-gray-300">{tag}</span>
-                                            ))}
-                                        </div>
-                                    )}
-                                </td>
-                                <td className="p-4 text-gray-300">
-                                    <div>{new Date(b.check_in).toLocaleDateString()}</div>
-                                    <div className="text-xs text-gray-500">até {new Date(b.check_out).toLocaleDateString()}</div>
-                                </td>
-                                <td className="p-4 font-mono text-[#CCFF00]">R$ {b.gross_value}</td>
-                                <td className="p-4">
-                                    <div className="capitalize text-gray-400">{b.channel}</div>
-                                    {b.detailed_channel && <div className="text-xs text-gray-600">{b.detailed_channel}</div>}
-                                </td>
-                                <td className="p-4">
-                                    <span className={`px-2 py-1 rounded-full text-[10px] uppercase font-bold ${b.status === 'confirmed' ? 'bg-green-500/20 text-green-500' :
-                                        b.status === 'pending' ? 'bg-yellow-500/20 text-yellow-500' :
-                                            'bg-red-500/20 text-red-500'
-                                        }`}>
-                                        {b.status === 'confirmed' ? 'Confirmada' : b.status === 'pending' ? 'Pendente' : 'Cancelada'}
-                                    </span>
-                                </td>
-                                <td className="p-4 text-right">
-                                    <div className="flex justify-end gap-2">
-                                        <button
-                                            onClick={() => handlePrintBooking(b)}
-                                            className="p-2 hover:bg-white/10 rounded text-blue-400"
-                                            title="Imprimir Voucher"
+            <div className="glass-card rounded-3xl border-white/5 p-6">
+                <div className="grid grid-cols-7 gap-2 mb-2">
+                    {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(day => (
+                        <div key={day} className="text-center text-xs font-bold text-gray-500 uppercase py-2">
+                            {day}
+                        </div>
+                    ))}
+                </div>
+                <div className="grid grid-cols-7 gap-2">
+                    {eachDayOfInterval({
+                        start: startOfWeek(startOfMonth(currentDate)),
+                        end: endOfWeek(endOfMonth(currentDate))
+                    }).map((day, idx) => {
+                        const isCurrentMonth = day.getMonth() === currentDate.getMonth();
+                        const dayBookings = getBookingsForDay(day);
+                        const hasBooking = dayBookings.length > 0;
+
+                        return (
+                            <div
+                                key={idx}
+                                onClick={() => onDateClick(day)}
+                                className={`min-h-[100px] rounded-xl border p-2 relative cursor-pointer group transition-all
+                                    ${isCurrentMonth ? 'border-white/5 bg-white/5 hover:bg-white/10' : 'border-transparent bg-transparent opacity-30'}
+                                `}
+                            >
+                                <span className={`text-xs font-bold ${isSameDay(day, new Date()) ? 'text-[#CCFF00]' : 'text-gray-400'}`}>
+                                    {format(day, 'd')}
+                                </span>
+
+                                <div className="flex flex-col gap-1 mt-2">
+                                    {dayBookings.slice(0, 3).map(b => (
+                                        <div key={b.id}
+                                            onClick={(e) => { e.stopPropagation(); openEdit(b); }}
+                                            className={`text-[8px] truncate px-1.5 py-0.5 rounded-md font-bold ${getBookingStyle(b)}`}
+                                            title={`${b.guest_name} (${(b.property as any)?.name}) - ${b.status}`}
                                         >
-                                            <Printer size={16} />
-                                        </button>
-                                        <button onClick={() => openEdit(b)} className="p-2 hover:bg-white/10 rounded text-gray-400"><Edit2 size={16} /></button>
-                                        <button onClick={() => handleDelete(b.id)} className="p-2 hover:bg-red-500/10 rounded text-red-500"><Trash2 size={16} /></button>
+                                            {b.guest_name}
+                                        </div>
+                                    ))}
+                                    {dayBookings.length > 3 && (
+                                        <div className="text-[9px] text-gray-400 text-center">+{dayBookings.length - 3}</div>
+                                    )}
+                                </div>
+
+                                {!hasBooking && isCurrentMonth && (
+                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
+                                        <Plus size={20} className="text-[#CCFF00]" />
                                     </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {filteredBookings.length === 0 && (
-                    <div className="p-12 text-center text-gray-500">Nenhuma reserva encontrada.</div>
-                )}
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
             {/* Modal */}
@@ -459,4 +367,4 @@ const BookingsPage: React.FC = () => {
     );
 };
 
-export default BookingsPage;
+export default CalendarPage;

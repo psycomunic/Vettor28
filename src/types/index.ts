@@ -36,9 +36,11 @@ export interface Booking {
     check_out: string;
     gross_value: number;
     channel: 'direct' | 'booking' | 'airbnb' | 'other';
+    detailed_channel?: string | null;
     channel_fee_value: number;
     ad_cost: number;
     status: 'confirmed' | 'cancelled' | 'pending';
     notes: string | null;
+    tags?: string[] | null;
     created_at: string;
 }

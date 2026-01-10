@@ -27,6 +27,10 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminClients from './pages/admin/Clients';
 import ProfileSettings from './pages/dashboard/ProfileSettings';
 import BookingVoucher from './pages/dashboard/BookingVoucher';
+import CalendarPage from './pages/dashboard/Calendar';
+import FinancialPage from './pages/dashboard/Financial';
+import MarketingPage from './pages/dashboard/Marketing';
+import GuestsPage from './pages/dashboard/Guests';
 
 // Other Components
 import Navbar from './components/Navbar';
@@ -74,6 +78,10 @@ const AppContent: React.FC = () => {
                     <Route index element={<OverviewPage />} />
                     <Route path="properties" element={<PropertiesPage />} />
                     <Route path="bookings" element={<BookingsPage />} />
+                    <Route path="calendar" element={<CalendarPage />} />
+                    <Route path="financial" element={<FinancialPage />} />
+                    <Route path="marketing" element={<MarketingPage />} />
+                    <Route path="guests" element={<GuestsPage />} />
                     <Route path="settings" element={<ProfileSettings />} />
                 </Route>
 

@@ -5,6 +5,10 @@ import {
     LayoutDashboard,
     Building2,
     CalendarCheck,
+    CalendarDays, // New
+    DollarSign,   // New
+    BarChart3,    // New
+    Users,        // New
     LogOut,
     User,
     Menu,
@@ -26,8 +30,12 @@ const DashboardLayout: React.FC = () => {
 
     const navItems = [
         { name: 'Visão Geral', path: '/dashboard', icon: <LayoutDashboard size={20} />, end: true },
-        { name: 'Estabelecimentos', path: '/dashboard/properties', icon: <Building2 size={20} /> },
         { name: 'Reservas', path: '/dashboard/bookings', icon: <CalendarCheck size={20} /> },
+        { name: 'Calendário', path: '/dashboard/calendar', icon: <CalendarDays size={20} /> }, // New
+        { name: 'Financeiro', path: '/dashboard/financial', icon: <DollarSign size={20} /> },   // New
+        { name: 'Marketing', path: '/dashboard/marketing', icon: <BarChart3 size={20} /> },     // New
+        { name: 'Clientes', path: '/dashboard/guests', icon: <Users size={20} /> },             // New
+        { name: 'Estabelecimentos', path: '/dashboard/properties', icon: <Building2 size={20} /> },
         { name: 'Configurações', path: '/dashboard/settings', icon: <Settings size={20} /> },
         ...(isAdmin ? [{ name: 'Painel Admin', path: '/admin', icon: <ShieldAlert size={20} /> }] : [])
     ];
