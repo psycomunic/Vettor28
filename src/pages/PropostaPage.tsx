@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, ArrowRight, Zap, Target, Crown, ChevronRight, ChevronLeft, Search, Palette, MousePointer2, Rocket } from 'lucide-react';
-import Navbar from '../components/Navbar';
+import { Check, X, ArrowRight, Zap, Target, Crown, ChevronRight, ChevronLeft, Search, Palette, MousePointer2, Rocket, Star, Shield, TrendingUp } from 'lucide-react';
 
 const PropostaPage = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -80,9 +79,9 @@ const PropostaPage = () => {
                         </p>
                     </div>
                 </div>
-                <div className="relative">
-                    <div className="absolute inset-0 bg-red-500/20 blur-[100px] rounded-full" />
-                    <div className="glass-card p-12 rounded-3xl border-white/10 text-center relative z-10">
+                <div className="relative group">
+                    <div className="absolute inset-0 bg-red-500/20 blur-[100px] rounded-full group-hover:bg-red-500/30 transition-all duration-700" />
+                    <div className="glass-card p-12 rounded-3xl border-white/10 text-center relative z-10 hover:scale-105 transition-transform duration-500 hover:border-red-500/30 hover:bg-red-500/5">
                         <p className="text-6xl font-black text-white mb-2">0%</p>
                         <p className="text-gray-400 uppercase tracking-widest">De Previsibilidade</p>
                     </div>
@@ -228,64 +227,104 @@ const PropostaPage = () => {
         <div className="flex flex-col items-center justify-center h-full px-6 max-w-7xl mx-auto pt-20 pb-10 overflow-y-auto">
             <h1 className="text-4xl md:text-5xl font-black mb-12 text-center">Escolha o seu plano de aceleração</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8 items-start w-full">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch w-full">
                 {/* Vettor Start */}
-                <div className="glass-card p-6 rounded-3xl border border-white/10 relative group hover:border-[#CCFF00]/30 transition-all duration-300">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="p-2 bg-green-500/10 rounded-lg text-green-500"><Zap size={20} /></div>
-                        <h3 className="text-lg font-bold text-green-500 uppercase">Vettor Start</h3>
+                <div className="glass-card p-8 rounded-3xl border border-white/10 relative group hover:border-[#CCFF00]/40 hover:bg-white/5 transition-all duration-300 flex flex-col">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-3 bg-green-500/10 rounded-xl text-green-500"><Zap size={24} /></div>
+                        <div>
+                            <h3 className="text-xl font-bold text-green-500 uppercase tracking-wide">Vettor Start</h3>
+                            <p className="text-xs text-gray-400 uppercase tracking-widest">Para quem está começando</p>
+                        </div>
                     </div>
-                    <p className="text-gray-400 text-xs mb-6 h-10">"Sair da dependência das OTAs e começar a vender direto"</p>
-                    <div className="text-2xl font-bold mb-1">R$ 2.500 <span className="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <div className="mb-6">
+                        <span className="text-4xl font-black text-white">R$ 2.500</span>
+                        <span className="text-gray-500 ml-2">/mês</span>
+                    </div>
+                    <p className="text-gray-300 text-sm mb-8 leading-relaxed min-h-[60px]">
+                        A estrutura fundamental para profissionalizar sua hospedagem e fazer as primeiras reservas diretas.
+                    </p>
 
-                    <a href="https://wa.me/5511933334444?text=Quero%20começar%20com%20o%20Plano%20Start" target="_blank" className="block w-full py-3 rounded-lg bg-white/5 hover:bg-green-500 hover:text-black text-center font-bold text-sm transition-all mb-6 border border-white/10">Escolher Start</a>
+                    <a href="https://wa.me/5511933334444?text=Quero%20começar%20com%20o%20Plano%20Start" target="_blank" className="block w-full py-4 rounded-xl bg-white/5 hover:bg-green-500 hover:text-black text-center font-bold uppercase text-sm transition-all mb-8 border border-white/10 hover:border-green-500 shadow-lg hover:shadow-green-500/20">
+                        Escolher Start
+                    </a>
 
-                    <ul className="space-y-2 text-gray-400 text-xs">
-                        <li className="flex gap-2"><Check size={14} className="text-green-500" /> Diagnóstico estratégico</li>
-                        <li className="flex gap-2"><Check size={14} className="text-green-500" /> Tráfego Meta Ads</li>
-                        <li className="flex gap-2"><Check size={14} className="text-green-500" /> Painel Vettor28</li>
-                    </ul>
+                    <div className="space-y-4">
+                        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">O que está incluso:</p>
+                        <ul className="space-y-3 text-gray-300 text-sm">
+                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Diagnóstico Estratégico</li>
+                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Gestão de Tráfego (Meta Ads)</li>
+                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Relatórios Mensais</li>
+                            <li className="flex gap-3"><Check size={16} className="text-green-500 shrink-0" /> Suporte via WhatsApp</li>
+                        </ul>
+                    </div>
                 </div>
 
                 {/* Vettor Scale */}
-                <div className="glass-card p-6 rounded-3xl border border-[#CCFF00]/50 bg-[#CCFF00]/5 relative transform lg:-translate-y-4 shadow-xl">
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#CCFF00] text-black px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
-                        <Target size={12} /> Mais Vendido
+                <div className="glass-card p-8 rounded-3xl border border-[#CCFF00]/50 bg-[#CCFF00]/5 relative transform md:-translate-y-4 shadow-[0_0_40px_-10px_rgba(204,255,0,0.15)] flex flex-col hover:scale-[1.02] transition-transform duration-300">
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#CCFF00] text-black px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest shadow-lg flex items-center gap-1">
+                        <Target size={14} /> Mais Vendido
                     </div>
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="p-2 bg-[#CCFF00]/10 rounded-lg text-[#CCFF00]"><ArrowRight size={20} /></div>
-                        <h3 className="text-lg font-bold text-[#CCFF00] uppercase">Vettor Scale</h3>
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-3 bg-[#CCFF00]/10 rounded-xl text-[#CCFF00]"><Star size={24} /></div>
+                        <div>
+                            <h3 className="text-xl font-bold text-[#CCFF00] uppercase tracking-wide">Vettor Scale</h3>
+                            <p className="text-xs text-[#CCFF00]/70 uppercase tracking-widest">Tração & Crescimento</p>
+                        </div>
                     </div>
-                    <p className="text-gray-300 text-xs mb-6 h-10">"Escalar reservas com previsibilidade e lucro"</p>
-                    <div className="text-2xl font-bold mb-1">R$ 4.500 <span className="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <div className="mb-6">
+                        <span className="text-4xl font-black text-white">R$ 4.500</span>
+                        <span className="text-gray-500 ml-2">/mês</span>
+                    </div>
+                    <p className="text-gray-300 text-sm mb-8 leading-relaxed min-h-[60px]">
+                        Para quem já roda mas quer previsibilidade. O equilíbrio perfeito entre investimento e retorno rápido.
+                    </p>
 
-                    <a href="https://wa.me/5511933334444?text=Quero%20escalar%20com%20o%20Plano%20Scale" target="_blank" className="block w-full py-3 rounded-lg bg-[#CCFF00] text-black text-center font-black text-sm hover:scale-[1.02] transition-all mb-6">Quero Escalar</a>
+                    <a href="https://wa.me/5511933334444?text=Quero%20escalar%20com%20o%20Plano%20Scale" target="_blank" className="block w-full py-4 rounded-xl bg-[#CCFF00] text-black text-center font-black uppercase text-sm hover:bg-white transition-all mb-8 shadow-[0_0_20px_rgba(204,255,0,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                        Quero Escalar
+                    </a>
 
-                    <ul className="space-y-2 text-white text-xs">
-                        <li className="flex gap-2"><Check size={14} className="text-[#CCFF00]" /> Tudo do Start</li>
-                        <li className="flex gap-2"><Check size={14} className="text-[#CCFF00]" /> Google Ads (Search/Maps)</li>
-                        <li className="flex gap-2"><Check size={14} className="text-[#CCFF00]" /> Branding Premium</li>
-                        <li className="flex gap-2"><Check size={14} className="text-[#CCFF00]" /> Reuniões Quinzenais</li>
-                    </ul>
+                    <div className="space-y-4">
+                        <p className="text-xs font-bold text-[#CCFF00]/70 uppercase tracking-widest mb-2">Tudo do Start, mais:</p>
+                        <ul className="space-y-3 text-white text-sm">
+                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> <span className="font-bold">Google Ads (Search & Maps)</span></li>
+                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Branding & Posicionamento</li>
+                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Reuniões Quinzenais de Métricas</li>
+                            <li className="flex gap-3"><Check size={16} className="text-[#CCFF00] shrink-0" /> Otimização de Perfis (OTAs)</li>
+                        </ul>
+                    </div>
                 </div>
 
                 {/* Vettor Elite */}
-                <div className="glass-card p-6 rounded-3xl border border-white/10 relative group hover:border-purple-500/50 transition-all duration-300">
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="p-2 bg-purple-500/10 rounded-lg text-purple-500"><Crown size={20} /></div>
-                        <h3 className="text-lg font-bold text-purple-500 uppercase">Vettor Elite</h3>
+                <div className="glass-card p-8 rounded-3xl border border-white/10 relative group hover:border-purple-500/50 hover:bg-purple-500/5 transition-all duration-300 flex flex-col">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-3 bg-purple-500/10 rounded-xl text-purple-500"><Crown size={24} /></div>
+                        <div>
+                            <h3 className="text-xl font-bold text-purple-500 uppercase tracking-wide">Vettor Elite</h3>
+                            <p className="text-xs text-gray-400 uppercase tracking-widest">Domínio de Mercado</p>
+                        </div>
                     </div>
-                    <p className="text-gray-400 text-xs mb-6 h-10">"Dominar o mercado da sua região e liderar"</p>
-                    <div className="text-2xl font-bold mb-1">R$ 8.000 <span className="text-sm text-gray-500 font-normal">/mês</span></div>
+                    <div className="mb-6">
+                        <span className="text-4xl font-black text-white">R$ 8.000</span>
+                        <span className="text-gray-500 ml-2">/mês</span>
+                    </div>
+                    <p className="text-gray-300 text-sm mb-8 leading-relaxed min-h-[60px]">
+                        Aceleração máxima. CRM, LTV e um gestor sênior dedicado exclusivamente ao seu negócio.
+                    </p>
 
-                    <a href="https://wa.me/5511933334444?text=Tenho%20interesse%20no%20Vettor%20Elite" target="_blank" className="block w-full py-3 rounded-lg bg-purple-900/40 hover:bg-purple-600 text-white text-center font-bold text-sm transition-all mb-6 border border-purple-500/30">Aplicar p/ Elite</a>
+                    <a href="https://wa.me/5511933334444?text=Tenho%20interesse%20no%20Vettor%20Elite" target="_blank" className="block w-full py-4 rounded-xl bg-purple-900/20 hover:bg-purple-600 text-white text-center font-bold uppercase text-sm transition-all mb-8 border border-purple-500/30 hover:border-purple-500 shadow-lg hover:shadow-purple-500/20">
+                        Aplicar para Elite
+                    </a>
 
-                    <ul className="space-y-2 text-gray-400 text-xs">
-                        <li className="flex gap-2"><Check size={14} className="text-purple-500" /> Tudo do Scale</li>
-                        <li className="flex gap-2"><Check size={14} className="text-purple-500" /> Exclusividade Regional</li>
-                        <li className="flex gap-2"><Check size={14} className="text-purple-500" /> CRM & LTV Completo</li>
-                        <li className="flex gap-2"><Check size={14} className="text-purple-500" /> Gestor Dedicado</li>
-                    </ul>
+                    <div className="space-y-4">
+                        <p className="text-xs font-bold text-purple-500/70 uppercase tracking-widest mb-2">Tudo do Scale, mais:</p>
+                        <ul className="space-y-3 text-gray-300 text-sm">
+                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> <span className="font-bold">Exclusividade Regional</span></li>
+                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Implementação de CRM Completo</li>
+                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Gestor Senior Dedicado</li>
+                            <li className="flex gap-3"><Check size={16} className="text-purple-500 shrink-0" /> Estratégias de LTV & Email Mkt</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -308,9 +347,7 @@ const PropostaPage = () => {
             className="h-screen bg-black text-white font-sans overflow-hidden flex flex-col relative"
             onClick={nextSlide}
         >
-            <div className="absolute top-0 w-full z-50 pointer-events-none">
-                <Navbar />
-            </div>
+
 
             <div className="flex-1 relative cursor-pointer">
                 <AnimatePresence mode="wait">
