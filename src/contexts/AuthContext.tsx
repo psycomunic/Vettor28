@@ -42,13 +42,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         supabase.auth.getSession().then(async ({ data: { session } }) => {
             setSession(session);
             setUser(session?.user ?? null);
+
             if (session?.user) {
-                // Safety timeout for profile fetch
-                const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 5000));
-                await Promise.race([
-                    fetchProfile(session.user.id),
-                    timeoutPromise
-                ]);
+                // IMMEDIATE CHECK: Use metadata as first source of truth to avoid flash
+                if (session.user.user_metadata?.role === 'admin') setIsAdmin(true);
+                if (session.user.user_metadata?.status === 'approved') setIsApproved(true);
+
+                // Then fetch fresh data from DB
+                await fetchProfile(session.user.id);
             }
             setLoading(false);
         }).catch((err) => {
@@ -63,6 +64,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setUser(session?.user ?? null);
                 if (session?.user) {
                     setLoading(true);
+
+                    // IMMEDIATE CHECK: Use metadata as first source of truth
+                    if (session.user.user_metadata?.role === 'admin') setIsAdmin(true);
+                    if (session.user.user_metadata?.status === 'approved') setIsApproved(true);
+
                     // Safety timeout
                     const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 5000));
                     await Promise.race([

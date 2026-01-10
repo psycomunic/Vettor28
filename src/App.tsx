@@ -23,6 +23,7 @@ import PropertiesPage from './pages/dashboard/Properties';
 import BookingsPage from './pages/dashboard/Bookings';
 import AdminLayout from './layouts/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
+import AdminClients from './pages/admin/Clients';
 import ProfileSettings from './pages/dashboard/ProfileSettings';
 import BookingVoucher from './pages/dashboard/BookingVoucher';
 
@@ -142,7 +143,7 @@ const App: React.FC = () => {
                         {/* Admin Panel */}
                         <Route path="/admin" element={<ProtectedAdminRoute><AdminLayout /></ProtectedAdminRoute>}>
                             <Route index element={<AdminDashboard />} />
-                            {/* We can add 'clients' route here too later */}
+                            <Route path="clients" element={<AdminClients />} />
                         </Route>
                     </Routes>
                 </div>
