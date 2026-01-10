@@ -53,16 +53,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Listen for changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            if (session?.user) {
-                setLoading(true); // Ensure loading is true while fetching profile on change
-                await fetchProfile(session.user.id);
-            } else {
-                setIsAdmin(false);
-                setIsApproved(false);
+            try {
+                setSession(session);
+                setUser(session?.user ?? null);
+                if (session?.user) {
+                    setLoading(true);
+                    await fetchProfile(session.user.id);
+                } else {
+                    setIsAdmin(false);
+                    setIsApproved(false);
+                }
+            } catch (error) {
+                console.error('Auth state change error:', error);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false);
         });
 
         return () => subscription.unsubscribe();
