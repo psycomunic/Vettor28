@@ -2,10 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Booking, Property } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { Plus, Trash2, Edit2, Loader2, CalendarCheck, Filter, Tag } from 'lucide-react';
+import { Plus, Trash2, Edit2, Loader2, CalendarCheck, Filter, Tag, X } from 'lucide-react';
 import { NeonButton } from '../../components/Shared';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isWithinInterval, addMonths, subMonths, startOfWeek, endOfWeek, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+
+const PREDEFINED_TAGS = [
+    { label: 'Aniversário', emoji: '🎂' },
+    { label: 'Lua de Mel', emoji: '💍' },
+    { label: 'Cliente Recorrente', emoji: '🔄' },
+    { label: 'Primeira Reserva', emoji: '🆕' },
+    { label: 'Influencer', emoji: '📸' }
+];
 
 const CalendarPage: React.FC = () => {
     const { user } = useAuth();
@@ -37,7 +45,7 @@ const CalendarPage: React.FC = () => {
         tags: [] as string[],
     });
 
-    const [tagInput, setTagInput] = useState('');
+    const [customTagInput, setCustomTagInput] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -67,17 +75,11 @@ const CalendarPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const finalTags = tagInput
-                ? tagInput.split(',').map(t => t.trim()).filter(Boolean)
-                : formData.tags;
-
-            const payload = { ...formData, tags: finalTags };
-
             if (editingId) {
-                const { error } = await supabase.from('bookings').update(payload).eq('id', editingId);
+                const { error } = await supabase.from('bookings').update(formData).eq('id', editingId);
                 if (error) throw error;
             } else {
-                const { error } = await supabase.from('bookings').insert([{ ...payload, user_id: user?.id }]);
+                const { error } = await supabase.from('bookings').insert([{ ...formData, user_id: user?.id }]);
                 if (error) throw error;
             }
             setIsModalOpen(false);
@@ -112,7 +114,7 @@ const CalendarPage: React.FC = () => {
             notes: '',
             tags: [],
         });
-        setTagInput('');
+        setCustomTagInput('');
     };
 
     const openEdit = (b: Booking) => {
@@ -130,10 +132,25 @@ const CalendarPage: React.FC = () => {
             notes: b.notes || '',
             tags: b.tags || [],
         });
-        setTagInput(b.tags ? b.tags.join(', ') : '');
         setEditingId(b.id);
         setIsModalOpen(true);
     };
+
+    const toggleTag = (tag: string) => {
+        setFormData(prev => {
+            const exists = prev.tags.includes(tag);
+            if (exists) return { ...prev, tags: prev.tags.filter(t => t !== tag) };
+            return { ...prev, tags: [...prev.tags, tag] };
+        });
+    };
+
+    const addCustomTag = () => {
+        if (!customTagInput.trim()) return;
+        if (!formData.tags.includes(customTagInput.trim())) {
+            setFormData(prev => ({ ...prev, tags: [...prev.tags, customTagInput.trim()] }));
+        }
+        setCustomTagInput('');
+    }
 
     const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
     const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
@@ -160,7 +177,6 @@ const CalendarPage: React.FC = () => {
         if (b.status === 'cancelled') return 'bg-gray-500/50 text-gray-400 line-through';
         if (b.status === 'pending') return 'bg-yellow-500/80 text-black border border-yellow-500';
 
-        // Confirmed status - differentiate by channel
         switch (b.channel) {
             case 'booking': return 'bg-[#003580] text-white';
             case 'airbnb': return 'bg-[#FF5A5F] text-white';
@@ -198,7 +214,6 @@ const CalendarPage: React.FC = () => {
                     </select>
                 </div>
 
-                {/* Legend */}
                 <div className="flex items-center gap-3 text-[10px] text-gray-400 hidden md:flex">
                     <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#CCFF00]"></div> Direto</div>
                     <div className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-[#003580]"></div> Booking</div>
@@ -249,8 +264,12 @@ const CalendarPage: React.FC = () => {
                                         <div key={b.id}
                                             onClick={(e) => { e.stopPropagation(); openEdit(b); }}
                                             className={`text-[8px] truncate px-1.5 py-0.5 rounded-md font-bold ${getBookingStyle(b)}`}
-                                            title={`${b.guest_name} (${(b.property as any)?.name}) - ${b.status}`}
+                                            title={`${b.guest_name} - ${b.tags?.join(', ')}`}
                                         >
+                                            {/* Show first tag emoji if available */}
+                                            {b.tags && b.tags.length > 0 ? (
+                                                <span className="mr-1">{b.tags[0].split(' ')[0]}</span>
+                                            ) : null}
                                             {b.guest_name}
                                         </div>
                                     ))}
@@ -344,17 +363,42 @@ const CalendarPage: React.FC = () => {
                                         <option value="cancelled">Cancelada</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <label className="text-gray-500 text-xs font-bold uppercase">Tags</label>
-                                    <div className="relative">
-                                        <input
-                                            placeholder="Ex: VIP, Pet, Café (separe por vírgula)"
-                                            value={tagInput}
-                                            onChange={e => setTagInput(e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00] pl-10"
-                                        />
-                                        <Tag size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                                <div className="space-y-2">
+                                    <label className="text-gray-500 text-xs font-bold uppercase block">Tags</label>
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        {PREDEFINED_TAGS.map(tag => {
+                                            const isActive = formData.tags.includes(`${tag.emoji} ${tag.label}`);
+                                            return (
+                                                <button
+                                                    key={tag.label}
+                                                    type="button"
+                                                    onClick={() => toggleTag(`${tag.emoji} ${tag.label}`)}
+                                                    className={`text-xs px-2 py-1 rounded-full border transition-all ${isActive ? 'bg-[#CCFF00] text-black border-[#CCFF00] font-bold' : 'bg-transparent text-gray-400 border-white/10 hover:border-white/30'}`}
+                                                >
+                                                    {tag.emoji} {tag.label}
+                                                </button>
+                                            )
+                                        })}
                                     </div>
+                                    <div className="flex gap-2">
+                                        <input
+                                            placeholder="Tag personalizada..."
+                                            value={customTagInput}
+                                            onChange={e => setCustomTagInput(e.target.value)}
+                                            className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2 text-xs text-white outline-none focus:border-[#CCFF00]"
+                                        />
+                                        <button type="button" onClick={addCustomTag} className="bg-white/10 hover:bg-white/20 text-white rounded-lg px-3 text-xs"><Plus size={14} /></button>
+                                    </div>
+                                    {formData.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-1 mt-2 p-2 bg-white/5 rounded-lg">
+                                            {formData.tags.map((tag, idx) => (
+                                                <span key={idx} className="bg-black text-[10px] px-2 py-1 rounded border border-white/10 flex items-center gap-1 group">
+                                                    {tag}
+                                                    <button type="button" onClick={() => toggleTag(tag)} className="text-gray-500 group-hover:text-red-500"><X size={10} /></button>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 

@@ -2,11 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Booking, Property } from '../../types';
 import { useAuth } from '../../contexts/AuthContext';
-import { Plus, Trash2, Edit2, Loader2, Filter, Download, Printer, Tag } from 'lucide-react';
+import { Plus, Trash2, Edit2, Loader2, Filter, Download, Printer, Tag, X } from 'lucide-react';
 import { NeonButton } from '../../components/Shared';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { format } from 'date-fns';
+
+const PREDEFINED_TAGS = [
+    { label: 'Aniversário', emoji: '🎂' },
+    { label: 'Lua de Mel', emoji: '💍' },
+    { label: 'Cliente Recorrente', emoji: '🔄' },
+    { label: 'Primeira Reserva', emoji: '🆕' },
+    { label: 'Influencer', emoji: '📸' }
+];
 
 const BookingsPage: React.FC = () => {
     const { user } = useAuth();
@@ -36,8 +44,7 @@ const BookingsPage: React.FC = () => {
         tags: [] as string[],
     });
 
-    // Helper for tag input (comma separated)
-    const [tagInput, setTagInput] = useState('');
+    const [customTagInput, setCustomTagInput] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -73,18 +80,11 @@ const BookingsPage: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            // Parse tags from input if not empty, otherwise keep existing or empty
-            const finalTags = tagInput
-                ? tagInput.split(',').map(t => t.trim()).filter(Boolean)
-                : formData.tags;
-
-            const payload = { ...formData, tags: finalTags };
-
             if (editingId) {
-                const { error } = await supabase.from('bookings').update(payload).eq('id', editingId);
+                const { error } = await supabase.from('bookings').update(formData).eq('id', editingId);
                 if (error) throw error;
             } else {
-                const { error } = await supabase.from('bookings').insert([{ ...payload, user_id: user?.id }]);
+                const { error } = await supabase.from('bookings').insert([{ ...formData, user_id: user?.id }]);
                 if (error) throw error;
             }
             setIsModalOpen(false);
@@ -119,7 +119,7 @@ const BookingsPage: React.FC = () => {
             notes: '',
             tags: [],
         });
-        setTagInput('');
+        setCustomTagInput('');
     };
 
     const openEdit = (b: Booking) => {
@@ -137,10 +137,25 @@ const BookingsPage: React.FC = () => {
             notes: b.notes || '',
             tags: b.tags || [],
         });
-        setTagInput(b.tags ? b.tags.join(', ') : '');
         setEditingId(b.id);
         setIsModalOpen(true);
     };
+
+    const toggleTag = (tag: string) => {
+        setFormData(prev => {
+            const exists = prev.tags.includes(tag);
+            if (exists) return { ...prev, tags: prev.tags.filter(t => t !== tag) };
+            return { ...prev, tags: [...prev.tags, tag] };
+        });
+    };
+
+    const addCustomTag = () => {
+        if (!customTagInput.trim()) return;
+        if (!formData.tags.includes(customTagInput.trim())) {
+            setFormData(prev => ({ ...prev, tags: [...prev.tags, customTagInput.trim()] }));
+        }
+        setCustomTagInput('');
+    }
 
     const exportCSV = () => {
         const headers = ['Guest', 'Check-In', 'Check-Out', 'Gross Value', 'Channel', 'Detailed Channel', 'Ad Cost', 'Status', 'Property', 'Tags'];
@@ -317,9 +332,16 @@ const BookingsPage: React.FC = () => {
                                     <div className="text-xs text-gray-500">{(b.property as any)?.name}</div>
                                     {b.tags && b.tags.length > 0 && (
                                         <div className="flex flex-wrap gap-1 mt-1">
-                                            {b.tags.map((tag: string, idx: number) => (
-                                                <span key={idx} className="bg-white/10 text-[10px] px-1.5 py-0.5 rounded text-gray-300">{tag}</span>
-                                            ))}
+                                            {b.tags.map((tag: string, idx: number) => {
+                                                const predefined = PREDEFINED_TAGS.find(pt => tag.includes(pt.label) || tag === pt.emoji + ' ' + pt.label);
+                                                // If it's a legacy simple string, matching might be lose. 
+                                                // We'll trust the tag content mostly.
+                                                return (
+                                                    <span key={idx} className="bg-white/10 text-[10px] px-1.5 py-0.5 rounded text-gray-300 border border-white/5">
+                                                        {tag}
+                                                    </span>
+                                                )
+                                            })}
                                         </div>
                                     )}
                                 </td>
@@ -436,17 +458,42 @@ const BookingsPage: React.FC = () => {
                                         <option value="cancelled">Cancelada</option>
                                     </select>
                                 </div>
-                                <div>
-                                    <label className="text-gray-500 text-xs font-bold uppercase">Tags</label>
-                                    <div className="relative">
-                                        <input
-                                            placeholder="Ex: VIP, Pet, Café (separe por vírgula)"
-                                            value={tagInput}
-                                            onChange={e => setTagInput(e.target.value)}
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-white outline-none focus:border-[#CCFF00] pl-10"
-                                        />
-                                        <Tag size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                                <div className="space-y-2">
+                                    <label className="text-gray-500 text-xs font-bold uppercase block">Tags</label>
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        {PREDEFINED_TAGS.map(tag => {
+                                            const isActive = formData.tags.includes(`${tag.emoji} ${tag.label}`);
+                                            return (
+                                                <button
+                                                    key={tag.label}
+                                                    type="button"
+                                                    onClick={() => toggleTag(`${tag.emoji} ${tag.label}`)}
+                                                    className={`text-xs px-2 py-1 rounded-full border transition-all ${isActive ? 'bg-[#CCFF00] text-black border-[#CCFF00] font-bold' : 'bg-transparent text-gray-400 border-white/10 hover:border-white/30'}`}
+                                                >
+                                                    {tag.emoji} {tag.label}
+                                                </button>
+                                            )
+                                        })}
                                     </div>
+                                    <div className="flex gap-2">
+                                        <input
+                                            placeholder="Tag personalizada..."
+                                            value={customTagInput}
+                                            onChange={e => setCustomTagInput(e.target.value)}
+                                            className="flex-1 bg-white/5 border border-white/10 rounded-lg p-2 text-xs text-white outline-none focus:border-[#CCFF00]"
+                                        />
+                                        <button type="button" onClick={addCustomTag} className="bg-white/10 hover:bg-white/20 text-white rounded-lg px-3 text-xs"><Plus size={14} /></button>
+                                    </div>
+                                    {formData.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-1 mt-2 p-2 bg-white/5 rounded-lg">
+                                            {formData.tags.map((tag, idx) => (
+                                                <span key={idx} className="bg-black text-[10px] px-2 py-1 rounded border border-white/10 flex items-center gap-1 group">
+                                                    {tag}
+                                                    <button type="button" onClick={() => toggleTag(tag)} className="text-gray-500 group-hover:text-red-500"><X size={10} /></button>
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
