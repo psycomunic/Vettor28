@@ -165,7 +165,7 @@ const ProfileSettings: React.FC = () => {
                 </div>
 
                 <div className="flex justify-end">
-                    <NeonButton className="!py-4 !px-8 text-black font-bold">
+                    <NeonButton type="submit" className="!py-4 !px-8 text-black font-bold">
                         {loading ? <Loader2 className="animate-spin" /> : <><Save size={18} /> Salvar Alterações</>}
                     </NeonButton>
                 </div>
