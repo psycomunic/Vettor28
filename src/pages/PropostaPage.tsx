@@ -4,7 +4,7 @@ import { Check, X, ArrowRight, Zap, Target, Crown, ChevronRight, ChevronLeft, Se
 
 const PropostaPage = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    const totalSlides = 8; // 0 to 7
+    const totalSlides = 11; // Updated count with visual slides
 
     const nextSlide = () => {
         if (currentSlide < totalSlides - 1) setCurrentSlide(curr => curr + 1);
@@ -223,9 +223,32 @@ const PropostaPage = () => {
         </div>
     );
 
+    // Generic Visual Slide Component
+    const VisualSlide = ({ image, title, subtitle }: { image: string, title: string, subtitle: string }) => (
+        <div className="relative h-full w-full overflow-hidden">
+            <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-[20s] ease-linear hover:scale-110"
+                style={{ backgroundImage: `url(${image})` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 w-full p-10 md:p-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                >
+                    <h2 className="text-[#CCFF00] font-bold uppercase tracking-widest mb-4">{subtitle}</h2>
+                    <h1 className="text-5xl md:text-7xl font-black text-white max-w-4xl leading-tight drop-shadow-2xl">
+                        {title}
+                    </h1>
+                </motion.div>
+            </div>
+        </div>
+    );
+
     const PricingSlide = () => (
-        <div className="flex flex-col items-center justify-center h-full px-4 md:px-6 max-w-[1600px] mx-auto pt-10 pb-32 overflow-y-auto custom-scrollbar">
-            <div className="text-center mb-10">
+        <div className="flex flex-col items-center h-full px-4 md:px-6 max-w-[1600px] mx-auto pt-10 pb-40 overflow-y-auto custom-scrollbar relative">
+            <div className="text-center mb-10 shrink-0">
                 <h1 className="text-4xl md:text-6xl font-black mb-2 tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
                     Planos Estratégicos
                 </h1>
@@ -237,7 +260,7 @@ const PropostaPage = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl items-start pb-20">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-7xl items-start pb-40">
 
                 {/* Vettor Start */}
                 <div className="rounded-3xl border border-white/10 bg-[#0A0A0A] hover:border-green-500/30 transition-all duration-300 flex flex-col overflow-hidden relative group h-full">
@@ -389,13 +412,18 @@ const PropostaPage = () => {
     const slides = [
         <CoverSlide />,
         <ScenarioSlide />,
+        <VisualSlide image="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1600&q=80" title="Entendemos o seu negócio como ninguém." subtitle="Diagnóstico" />,
         <Phase1Slide />,
+        <VisualSlide image="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1600&q=80" title="Design que desperta desejo imediato." subtitle="Posicionamento" />,
         <Phase2Slide />,
         <Phase3Slide />,
+        <VisualSlide image="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80" title="Resultados previsíveis e escaláveis." subtitle="Crescimento" />,
         <Phase4Slide />,
         <ResultsSlide />,
         <PricingSlide />
     ];
+
+    // const totalSlides = slides.length; // Uses static count at top to avoid hoisting issues
 
     return (
         <div
@@ -426,12 +454,12 @@ const PropostaPage = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    {/* Progress Dots */}
-                    <div className="flex gap-1 mr-4">
+                    {/* Progress Dots - Desktop Only */}
+                    <div className="hidden md:flex gap-1 mr-4">
                         {Array.from({ length: totalSlides }).map((_, i) => (
                             <div
                                 key={i}
-                                className={`w-2 h-2 rounded-full transition-all ${i === currentSlide ? 'bg-[#CCFF00] w-6' : 'bg-white/10'}`}
+                                className={`w-1.5 h-1.5 rounded-full transition-all ${i === currentSlide ? 'bg-[#CCFF00] w-6' : 'bg-white/10'}`}
                             />
                         ))}
                     </div>
