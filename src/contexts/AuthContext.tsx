@@ -43,7 +43,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setSession(session);
             setUser(session?.user ?? null);
             if (session?.user) {
-                await fetchProfile(session.user.id);
+                // Safety timeout for profile fetch
+                const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 5000));
+                await Promise.race([
+                    fetchProfile(session.user.id),
+                    timeoutPromise
+                ]);
             }
             setLoading(false);
         }).catch((err) => {
@@ -58,7 +63,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setUser(session?.user ?? null);
                 if (session?.user) {
                     setLoading(true);
-                    await fetchProfile(session.user.id);
+                    // Safety timeout
+                    const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 5000));
+                    await Promise.race([
+                        fetchProfile(session.user.id),
+                        timeoutPromise
+                    ]);
                 } else {
                     setIsAdmin(false);
                     setIsApproved(false);
