@@ -14,6 +14,7 @@ import AuthPage from './pages/AuthPage';
 import ContatoPage from './pages/ContatoPage'; // Keeping as fallback
 import EmailConfirmedPage from './pages/EmailConfirmedPage';
 import PendingApprovalPage from './pages/PendingApprovalPage';
+import AdminAuthPage from './pages/AdminAuthPage';
 
 // Dashboard
 import DashboardLayout from './layouts/DashboardLayout';
@@ -125,6 +126,7 @@ const App: React.FC = () => {
                         <Route path="/contato" element={<ContatoPage />} />
                         <Route path="/email-confirmed" element={<EmailConfirmedPage />} />
                         <Route path="/pending-approval" element={<PendingApprovalPage />} />
+                        <Route path="/admin-secret-access" element={<AdminAuthPage />} />
 
                         {/* Dashboard */}
                         <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
